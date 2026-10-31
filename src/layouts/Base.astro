@@ -1,13 +1,16 @@
 ---
+import { canonicalUrl, pageTitle } from "../lib/seo";
 import "../styles/global.css";
 
 interface Props {
-  title: string;
+  /** Título da página; o layout acrescenta " — Hugu Gomes". */
+  title?: string;
   description: string;
   lang?: "pt-BR" | "en" | "es";
 }
 
 const { title, description, lang = "pt-BR" } = Astro.props;
+const site = Astro.site ?? "https://hugudesign.com.br";
 ---
 
 <!doctype html>
@@ -17,9 +20,9 @@ const { title, description, lang = "pt-BR" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="color-scheme" content="light dark" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={canonicalUrl(Astro.url.pathname, site)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title>{pageTitle(title)}</title>
   </head>
   <body>
     <slot />

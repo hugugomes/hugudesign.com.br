@@ -68,7 +68,7 @@ Contrato de arquitetura:
   - acessibilidade (axe);
   - modo reduced-motion;
   - prints de regressão visual.
-- **Cobertura:** relatório enviado ao **Codecov** em todo PR (precisa do secret `CODECOV_TOKEN`).
+- **Cobertura:** relatório enviado ao **Codecov** em todo PR, autenticado por OIDC (sem token nos secrets).
 - Bug corrigido = teste novo que reproduz o bug.
 
 ## 6. Observabilidade
