@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/docs", "!**/.agents", "!**/dist", "!**/.astro", "!**/package-lock.json"]
+    "includes": [
+      "**",
+      "!**/docs",
+      "!**/.agents",
+      "!**/dist",
+      "!**/.astro",
+      "!**/package-lock.json"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -32,5 +39,24 @@
         "organizeImports": "on"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": [
+        "**/*.astro"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          },
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          }
+        }
+      }
+    }
+  ]
 }
