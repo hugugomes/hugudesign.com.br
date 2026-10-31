@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Hugu Gomes — Currículo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}
+a:hover{opacity:.8}
+</style>
+</helmet>
+<div style="background: {{c.bg}}; color: {{c.ink}}; font-family: 'Archivo', system-ui, sans-serif; min-height: 100vh; padding: 0 24px 80px;">
+  <nav style="max-width: 1040px; margin: 0 auto; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;" aria-label="Currículo">
+    <a href="Main.dc.html" style="height: 44px; display: inline-flex; align-items: center; text-decoration: none; font-weight: 600;">← hugudesign.com.br</a>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <div role="group" aria-label="Idioma" style="display: flex; padding: 3px; border: 1px solid {{c.line}}; border-radius: 999px;">
+        <sc-for list="{{langs}}" as="l" hint-placeholder-count="3">
+          <button type="button" onClick="{{l.pick}}" aria-pressed="{{l.on}}" style="min-width: 44px; height: 36px; border: 0; border-radius: 999px; font: 600 12px/1 'Archivo', sans-serif; letter-spacing: .08em; cursor: pointer; background: {{l.bg}}; color: {{l.fg}};">{{l.code}}</button>
+        </sc-for>
+      </div>
+      <button type="button" onClick="{{toggleTheme}}" aria-label="{{t.themeLabel}}" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; cursor: pointer;">◐</button>
+      <a href="#pdf" style="height: 44px; padding: 0 18px; display: inline-flex; align-items: center; border-radius: 999px; background: {{c.accent}}; color: {{c.accentInk}}; text-decoration: none; font-weight: 600; font-size: 14px;">{{t.download}}</a>
+    </div>
+  </nav>
+
+  <main style="max-width: 1040px; margin: 24px auto 0; display: flex; flex-direction: column; gap: 56px;">
+    <header style="display: flex; gap: 28px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid {{c.line}}; padding-bottom: 40px;">
+      <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
+        <img src="/_blob/bccf77d8bc18f0713b340340e3812c21" alt="Hugu Gomes" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%;">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px; flex: 1 1 320px;">
+        <h1 style="margin: 0; font-stretch: 75%; font-weight: 900; font-size: clamp(44px, 6vw, 72px); line-height: .9; letter-spacing: -.01em;">HUGO “HUGU” GOMES</h1>
+        <p style="margin: 0; font-size: 19px;">{{t.role}}</p>
+        <p style="margin: 0; font-size: 15px; color: {{c.muted}};">{{t.place}} · [contato@hugudesign.com.br] · +55 11 98073-7232 · {{t.langs}}</p>
+      </div>
+    </header>
+
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px;">
+      <h2 style="margin: 0; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}};">{{t.hSummary}}</h2>
+      <p style="margin: 0; font-size: 18px; line-height: 1.65; grid-column: span 2;">{{t.summary}}</p>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 4px;">
+      <h2 style="margin: 0 0 16px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}};">{{t.hExp}}</h2>
+      <sc-for list="{{exp}}" as="e" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 32px; padding: 22px 0; border-top: 1px solid {{c.line}};">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <strong style="font-size: 19px;">{{e.org}}</strong>
+            <span style="font-size: 15px; color: {{c.muted}};">{{e.when}}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; grid-column: span 2;">
+            <span style="font-size: 17px; font-weight: 600;">{{e.role}}</span>
+            <span style="font-size: 16px; line-height: 1.6; color: {{c.muted}};">{{e.text}}</span>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <h2 style="margin: 0 0 16px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}};">{{t.hEdu}}</h2>
+        <sc-for list="{{edu}}" as="d" hint-placeholder-count="4">
+          <div style="padding: 16px 0; border-top: 1px solid {{c.line}}; display: flex; flex-direction: column; gap: 4px;">
+            <strong style="font-size: 17px;">{{d.what}}</strong>
+            <span style="font-size: 15px; color: {{c.muted}};">{{d.where}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <h2 style="margin: 0 0 16px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}};">{{t.hTools}}</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid {{c.line}}; padding-top: 16px;">
+          <sc-for list="{{tools}}" as="s" hint-placeholder-count="8">
+            <span style="padding: 8px 14px; border-radius: 999px; border: 1px solid {{c.line}}; font-size: 14px;">{{s.name}}</span>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":2600}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { lang: 'pt', dark: false }; }
+  renderVals() {
+    const L = this.state.lang, dark = this.state.dark;
+    const T = {
+      pt: {
+        themeLabel: 'Alternar modo claro e escuro', download: 'Baixar PDF',
+        role: 'Designer gráfico · Identidade visual e branding', langs: 'Português, inglês, espanhol', place: 'Guarulhos, SP · atualmente em Foz do Iguaçu, PR',
+        hSummary: 'Resumo', hExp: 'Experiência', hEdu: 'Formação', hTools: 'Ferramentas',
+        summary: 'Designer gráfico desde 2019, especializado em identidade visual e branding. Hoje atuo presencialmente no Grupo Empresarial Castro, em Foz do Iguaçu, na comunicação de congressos médicos e científicos, e sigo atendendo projetos de marca como freelancer.',
+        exp: [
+          ['Grupo Empresarial Castro', 'mar 2026 — atual', 'Designer gráfico · presencial em Foz do Iguaçu', 'Comunicação visual de congressos como Espectro, CMAC, CINA, SPIA e INA: carrosséis, peças de divulgação, impressos, apresentações e materiais de evento.'],
+          ['Catholicum Studio', '2026 · 2 meses', 'Designer de identidade visual (parceria)', 'Brasões, identidades e manuais de marca para escolas, paróquias e santuários.'],
+          ['Freelancer · Hugu Design', '2019 — atual', 'Designer de marcas', 'Identidade visual, branding, embalagens, social media e lançamentos para clientes no Brasil.'],
+          ['5TART Social', 'fev 2022 — out 2022', 'Designer gráfico (júnior → pleno)', 'Direção visual de campanhas e conteúdo para redes sociais.'],
+          ['Paróquias Sagrado Coração de Jesus e São Roque', '2017 — 2026', 'Voluntário · Pascom', 'Peças gráficas, cobertura fotográfica e transmissões ao vivo.']
+        ],
+        edu: [['Tecnologia em Design Gráfico', 'Universidade Anhembi Morumbi · 2025'], ['Pós-produção audiovisual', 'Brainstorm Academy · 2021'], ['Design gráfico, ilustração e arte digital', 'Escola SAGA · 2019 · curso interrompido'], ['Empreendedorismo', 'INAE · 2018']]
+      },
+      en: {
+        themeLabel: 'Toggle light and dark mode', download: 'Download PDF',
+        role: 'Graphic designer · Visual identity and branding', langs: 'Portuguese, English, Spanish', place: 'São Paulo, Brazil · currently in Foz do Iguaçu, PR',
+        hSummary: 'Summary', hExp: 'Experience', hEdu: 'Education', hTools: 'Tools',
+        summary: 'Graphic designer since 2019, specialised in visual identity and branding. I currently work on-site at Grupo Empresarial Castro in Foz do Iguaçu, Brazil, on communication for medical and scientific congresses, and keep taking on brand projects as a freelancer.',
+        exp: [
+          ['Grupo Empresarial Castro', 'Mar 2026 — present', 'Graphic designer · on-site in Foz do Iguaçu', 'Visual communication for congresses such as Espectro, CMAC, CINA, SPIA and INA: carousels, promotional pieces, print, presentations and event materials.'],
+          ['Catholicum Studio', '2026 · 2 months', 'Visual identity designer (partnership)', 'Coats of arms, identities and brand guidelines for schools, parishes and shrines.'],
+          ['Freelance · Hugu Design', '2019 — present', 'Brand designer', 'Visual identity, branding, packaging, social media and launches for clients in Brazil.'],
+          ['5TART Social', 'Feb 2022 — Oct 2022', 'Graphic designer (junior → mid-level)', 'Visual direction of campaigns and social media content.'],
+          ['Sacred Heart and St. Roch Parishes', '2017 — 2026', 'Volunteer · Communications', 'Graphic pieces, photo coverage and live streams.']
+        ],
+        edu: [['Associate degree in Graphic Design', 'Anhembi Morumbi University · 2025'], ['Audiovisual post-production', 'Brainstorm Academy · 2021'], ['Graphic design, illustration and digital art', 'SAGA School · 2019 · not completed'], ['Entrepreneurship', 'INAE · 2018']]
+      },
+      es: {
+        themeLabel: 'Cambiar modo claro y oscuro', download: 'Descargar PDF',
+        role: 'Diseñador gráfico · Identidad visual y branding', langs: 'Portugués, inglés, español', place: 'São Paulo, Brasil · actualmente en Foz do Iguaçu, PR',
+        hSummary: 'Resumen', hExp: 'Experiencia', hEdu: 'Formación', hTools: 'Herramientas',
+        summary: 'Diseñador gráfico desde 2019, especializado en identidad visual y branding. Hoy trabajo de forma presencial en el Grupo Empresarial Castro, en Foz do Iguaçu, en la comunicación de congresos médicos y científicos, y sigo atendiendo proyectos de marca como freelancer.',
+        exp: [
+          ['Grupo Empresarial Castro', 'mar 2026 — actual', 'Diseñador gráfico · presencial en Foz do Iguaçu', 'Comunicación visual de congresos como Espectro, CMAC, CINA, SPIA e INA: carruseles, piezas de difusión, impresos, presentaciones y materiales de evento.'],
+          ['Catholicum Studio', '2026 · 2 meses', 'Diseñador de identidad visual (colaboración)', 'Escudos, identidades y manuales de marca para colegios, parroquias y santuarios.'],
+          ['Freelance · Hugu Design', '2019 — actual', 'Diseñador de marcas', 'Identidad visual, branding, packaging, redes sociales y lanzamientos para clientes en Brasil.'],
+          ['5TART Social', 'feb 2022 — oct 2022', 'Diseñador gráfico (junior → semi senior)', 'Dirección visual de campañas y contenido para redes.'],
+          ['Parroquias Sagrado Corazón y San Roque', '2017 — 2026', 'Voluntario · Comunicación', 'Piezas gráficas, cobertura fotográfica y transmisiones en vivo.']
+        ],
+        edu: [['Tecnólogo en Diseño Gráfico', 'Universidad Anhembi Morumbi · 2025'], ['Posproducción audiovisual', 'Brainstorm Academy · 2021'], ['Diseño gráfico, ilustración y arte digital', 'Escuela SAGA · 2019 · no concluido'], ['Emprendimiento', 'INAE · 2018']]
+      }
+    };
+    const t = T[L];
+    const c = dark ? {
+      bg: '#0A0F17', ink: '#EEF1F5', muted: '#A6B1C0', line: 'rgba(238,241,245,.14)', accent: '#6AAEF0', accentInk: '#06121F'
+    } : {
+      bg: '#F3F1EC', ink: '#0D1724', muted: '#4F5B6B', line: 'rgba(13,23,36,.14)', accent: '#0B4F8A', accentInk: '#FFFFFF'
+    };
+    return {
+      t, c,
+      langs: ['pt', 'en', 'es'].map((code) => ({ code: code.toUpperCase(), on: code === L ? 'true' : 'false', bg: code === L ? c.ink : 'transparent', fg: code === L ? c.bg : c.ink, pick: () => this.setState({ lang: code }) })),
+      exp: t.exp.map((e) => ({ org: e[0], when: e[1], role: e[2], text: e[3] })),
+      edu: t.edu.map((d) => ({ what: d[0], where: d[1] })),
+      tools: ['Photoshop', 'Illustrator', 'Figma', 'After Effects', 'Premiere', 'WordPress', 'Elementor', 'Notion'].map((name) => ({ name })),
+      toggleTheme: () => this.setState({ dark: !dark })
+    };
+  }
+}
+</script>
+</body>
+</html>

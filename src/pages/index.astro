@@ -1,0 +1,40 @@
+---
+// Página provisória: a home de verdade entra nas issues #9–#11.
+// Os textos vão para src/i18n/ na issue #8.
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Hugu Gomes — Designer estratégico"
+  description="Portfólio de Hugu Gomes: branding, identidade visual, social media e motion."
+>
+  <main class="soon">
+    <h1>Hugu Gomes</h1>
+    <p>Novo portfólio em construção.</p>
+    <p lang="en">New portfolio coming soon.</p>
+    <p lang="es">Nuevo portafolio en construcción.</p>
+  </main>
+</Base>
+
+<style>
+  .soon {
+    min-height: 100dvh;
+    display: grid;
+    place-content: center;
+    gap: 0.25rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  p {
+    margin: 0;
+  }
+  p[lang] {
+    opacity: 0.6;
+  }
+</style>

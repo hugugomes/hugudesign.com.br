@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Hugu Gomes — Designer de marcas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}
+a:hover{opacity:.85}
+.hg-nav-links{display:flex}
+.hg-hide-sm{display:inline-flex}
+@media (max-width: 820px){.hg-nav-links{display:none}.hg-hide-sm{display:none}}
+@keyframes hgUp{from{opacity:0;transform:translateY(56px)}to{opacity:1;transform:none}}
+.rv{animation:hgUp both cubic-bezier(.2,.7,.2,1);animation-timeline:view();animation-range:entry 0% cover 28%}
+@keyframes hgRise{from{transform:translateY(105%)}to{transform:none}}
+.hg-line{display:block;overflow:hidden;padding-bottom:.02em}
+.hg-line>span{display:inline-block;animation:hgRise 1.2s cubic-bezier(.2,.8,.2,1) both}
+.hg-line.d2>span{animation-delay:.15s}
+@keyframes hgFade{from{opacity:0;transform:translateY(40px) scale(.98)}to{opacity:1;transform:none}}
+.hg-portrait{animation:hgFade 1.4s .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes hgMarq{to{transform:translateX(-50%)}}
+.hg-marq{display:flex;gap:56px;width:max-content;animation:hgMarq 38s linear infinite}
+.hg-track{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.hg-slide{transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.hg-slide:hover{transform:translateY(-8px);box-shadow:0 24px 48px -24px rgba(0,0,0,.45)}
+@keyframes hgDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.hg-draw .ln{stroke-dasharray:1;stroke-dashoffset:1;animation:hgDraw linear both;animation-timeline:view();animation-range:entry 10% cover 50%}
+@keyframes hgBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hg-bob{animation:hgBob 2.6s ease-in-out infinite}
+@keyframes hgPop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes hgBlink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+.hg-blink{transform-box:fill-box;transform-origin:center;animation:hgBlink 4.2s infinite}
+.hg-pop{animation:hgPop .35s cubic-bezier(.2,.8,.2,1) both;transform-origin:bottom right}
+.hg-build-scope{view-timeline-name:--build}
+@keyframes hgBuild{from{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r)) scale(var(--s))}55%{opacity:1}to{opacity:1;transform:none}}
+.hg-build{display:inline-block;will-change:transform;animation:hgBuild linear both;animation-timeline:--build;animation-range:entry 10% cover 45%}
+@keyframes hgArrow{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.hg-arrow path{stroke-dasharray:1;stroke-dashoffset:1;animation:hgArrow linear both;animation-timeline:--build;animation-range:contain 30% contain 55%}
+@media (prefers-reduced-motion: reduce){.hg-build,.hg-arrow path{animation:none!important;opacity:1;transform:none;stroke-dashoffset:0}}
+@media (prefers-reduced-motion: reduce){.rv,.hg-line>span,.hg-portrait,.hg-marq,.hg-bob,.hg-draw .ln{animation:none!important;stroke-dashoffset:0}}
+</style>
+</helmet>
+<div onMouseMove="{{onMove}}" style="background: {{c.bg}}; color: {{c.ink}}; font-family: 'Archivo', system-ui, sans-serif; min-height: 100vh; transition: background .3s ease, color .3s ease; overflow-x: clip;">
+
+  <!-- NAV -->
+  <header style="position: sticky; top: 0; z-index: 20; background: {{c.navBg}}; backdrop-filter: blur(12px); border-bottom: 1px solid {{c.line}};">
+    <nav style="max-width: 1320px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;" aria-label="Principal">
+      <a href="#topo" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+        <span style="width: 40px; height: 40px; border-radius: 10px; background: {{c.logoBg}}; display: inline-flex; align-items: center; justify-content: center;">
+          <img src="/_blob/318db62ff904de6a778bb0f508d51f46" alt="" style="width: 32px; height: 32px; object-fit: contain;">
+        </span>
+        <span style="font-weight: 700; font-size: 16px;">Hugu Gomes</span>
+      </a>
+      <div class="hg-nav-links" style="gap: 28px; font-size: 15px; font-weight: 500;">
+        <a href="#trabalhos" style="text-decoration: none;">{{t.navWork}}</a>
+        <a href="#servicos" style="text-decoration: none;">{{t.navServices}}</a>
+        <a href="#sobre" style="text-decoration: none;">{{t.navAbout}}</a>
+        <a href="#contato" style="text-decoration: none;">{{t.navContact}}</a>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div role="group" aria-label="{{t.langLabel}}" style="display: flex; padding: 3px; border: 1px solid {{c.line}}; border-radius: 999px;">
+          <sc-for list="{{langs}}" as="l" hint-placeholder-count="3">
+            <button type="button" onClick="{{l.pick}}" aria-pressed="{{l.on}}" style="min-width: 44px; height: 36px; border: 0; border-radius: 999px; font: 600 12px/1 'Archivo', sans-serif; letter-spacing: .08em; cursor: pointer; background: {{l.bg}}; color: {{l.fg}};">{{l.code}}</button>
+          </sc-for>
+        </div>
+        <button type="button" onClick="{{toggleTheme}}" aria-label="{{t.themeLabel}}" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+          <sc-if value="{{dark}}" hint-placeholder-val="{{ false }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"></path></svg>
+          </sc-if>
+          <sc-if value="{{light}}" hint-placeholder-val="{{ true }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg>
+          </sc-if>
+        </button>
+        <a class="hg-hide-sm" href="#contato" style="height: 44px; padding: 0 18px; align-items: center; border-radius: 999px; background: {{c.accent}}; color: {{c.accentInk}}; text-decoration: none; font-weight: 600; font-size: 14px;">{{t.navCta}}</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="topo" style="position: relative; padding: 32px 24px 0;">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">
+      <span>{{t.kicker}}</span>
+      <span>{{t.place}}</span>
+    </div>
+    <div style="position: relative; max-width: 1320px; margin: 16px auto 0; height: clamp(520px, 62vw, 820px); border-bottom: 1px solid {{c.line}};">
+      <h1 aria-label="Hugu Gomes" style="position: absolute; left: 0; right: 0; top: 0; z-index: 1; margin: 0; pointer-events: none; text-align: center; font-family: 'Archivo', sans-serif; font-stretch: 70%; font-weight: 900; font-size: clamp(84px, 17vw, 260px); line-height: .82; letter-spacing: -.02em; color: {{c.ink}};">
+        <span class="hg-line"><span>HUGU</span></span>
+        <span class="hg-line d2"><span style="color: {{c.accent}};">GOMES</span></span>
+      </h1>
+      <div style="position: absolute; z-index: 2; bottom: 0; left: 50%; transform: translateX(-50%); height: 88%; aspect-ratio: 1100 / 1183;">
+        <div class="hg-portrait" onMouseMove="{{onLens}}" onMouseLeave="{{offLens}}" style="position: absolute; inset: 0; cursor: crosshair;">
+          <img src="/_blob/b0e60d38a640a78f890a589c7015fd5d" alt="{{t.photoAlt}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom;">
+          <img src="/_blob/863897a9afb30b362d476a4fa4b78a6b" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom; {{lensMask}}">
+          <div aria-hidden="true" style="position: absolute; width: 260px; height: 260px; border-radius: 50%; border: 1px solid {{c.ring}}; transform: translate(-50%, -50%); pointer-events: none; {{ringPos}}"></div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width: 1320px; margin: 36px auto 0; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px; padding-bottom: 48px;">
+      <p class="rv" style="margin: 0; max-width: 560px; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.45;">{{t.heroSub}}</p>
+      <div class="rv" style="display: flex; flex-direction: column; gap: 14px; align-items: flex-start;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="#trabalhos" style="height: 52px; padding: 0 26px; display: inline-flex; align-items: center; border-radius: 999px; background: {{c.accent}}; color: {{c.accentInk}}; text-decoration: none; font-weight: 600;">{{t.heroBtn1}}</a>
+          <a href="#contato" style="height: 52px; padding: 0 26px; display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid {{c.ink}}; text-decoration: none; font-weight: 600;">{{t.heroBtn2}}</a>
+        </div>
+        <span style="font-size: 13px; color: {{c.muted}};">{{t.heroHint}}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENT MARQUEE -->
+  <div style="border-top: 1px solid {{c.line}}; border-bottom: 1px solid {{c.line}}; padding: 20px 0; overflow: hidden;" aria-label="{{t.clientsLabel}}">
+    <div class="hg-marq" style="font-size: 22px; font-weight: 700; font-stretch: 80%; letter-spacing: .01em; color: {{c.muted}}; white-space: nowrap;">
+      <sc-for list="{{marquee}}" as="m" hint-placeholder-count="12">
+        <span style="display: inline-flex; align-items: center; gap: 56px;">{{m.name}} <span aria-hidden="true" style="color: {{c.accent}};">✦</span></span>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- MANIFESTO with hairline construction drawing -->
+  <section style="padding: 120px 24px; position: relative;">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px; align-items: center;">
+      <div class="rv" style="display: flex; flex-direction: column; gap: 28px;">
+        <p style="margin: 0; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">/ 01 · Manifesto</p>
+        <h2 style="margin: 0; font-weight: 700; font-size: clamp(40px, 5vw, 72px); line-height: 1.02; letter-spacing: -.02em;">{{t.manifestoA}} <em style="font-family: 'Instrument Serif', serif; font-weight: 400; font-style: italic; color: {{c.accent}};">{{t.manifestoB}}</em></h2>
+        <p style="margin: 0; font-size: 19px; line-height: 1.6; color: {{c.muted}};">{{t.manifestoP1}}</p>
+        <p style="margin: 0; font-size: 19px; line-height: 1.6; color: {{c.muted}};">{{t.manifestoP2}}</p>
+      </div>
+      <svg class="hg-draw" viewBox="0 0 400 400" role="img" aria-label="{{t.drawLabel}}" style="width: 100%; max-width: 460px; justify-self: center; color: {{c.accent}};" fill="none" stroke="currentColor" stroke-width="1">
+        <circle class="ln" pathLength="1" cx="200" cy="200" r="160"></circle>
+        <circle class="ln" pathLength="1" cx="200" cy="200" r="98.9"></circle>
+        <circle class="ln" pathLength="1" cx="139" cy="200" r="61.1"></circle>
+        <circle class="ln" pathLength="1" cx="261" cy="200" r="61.1"></circle>
+        <path class="ln" pathLength="1" d="M40 200H360M200 40V360M87 87L313 313M313 87L87 313"></path>
+        <path class="ln" pathLength="1" d="M101 140h66v120h-66zM233 140h66v120h-66zM167 200h66" stroke-width="2.5" style="color: {{c.ink}};" stroke="currentColor"></path>
+        <rect class="ln" pathLength="1" x="40" y="40" width="320" height="320"></rect>
+      </svg>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="trabalhos" style="padding: 40px 24px 120px; border-top: 1px solid {{c.line}};">
+    <div style="max-width: 1320px; margin: 0 auto;">
+      <div class="rv" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin: 64px 0 32px;">
+        <div>
+          <p style="margin: 0 0 12px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">/ 02 · {{t.workLabel}}</p>
+          <h2 style="margin: 0; font-size: clamp(40px, 5vw, 72px); letter-spacing: -.02em; line-height: 1;">{{t.workTitleA}} <em style="font-family: 'Instrument Serif', serif; font-weight: 400; color: {{c.accent}};">{{t.workTitleB}}</em></h2>
+        </div>
+        <div role="tablist" aria-label="{{t.filterLabel}}" style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="4">
+            <button type="button" role="tab" aria-selected="{{f.on}}" onClick="{{f.pick}}" style="height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid {{f.border}}; background: {{f.bg}}; color: {{f.fg}}; font: 600 14px 'Archivo', sans-serif; cursor: pointer;">{{f.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- A · IDENTIDADES -->
+      <sc-if value="{{showA}}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top: 48px;">
+          <p class="rv" style="margin: 0 0 20px; display: flex; gap: 14px; align-items: baseline;"><span style="font-family: 'Instrument Serif', serif; font-size: 22px; color: {{c.accent}};">A</span><span style="font-size: 24px; font-weight: 700;">{{t.secA}}</span></p>
+          <!-- featured wide -->
+          <div class="rv" style="margin-bottom: 36px;">
+            <div class="hg-slide" style="border-radius: 6px; overflow: hidden; aspect-ratio: 3000 / 1688; background: #0f5b8c;">
+              <img src="/_blob/7c210ffc376a2613df4d01a063921967" alt="Marista Arcanjo — key visual Ser Marista, ser farol de esperança" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 12px;">
+              <sc-for list="{{arcanjo}}" as="a" hint-placeholder-count="5">
+                <div class="hg-slide" style="border-radius: 6px; overflow: hidden; aspect-ratio: 4 / 5; background: {{c.soft}};">
+                  <img src="{{a.src}}" alt="{{a.alt}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 16px; padding-top: 14px; font-size: 17px; flex-wrap: wrap;">
+              <span><strong>Marista Arcanjo · Ser farol de esperança</strong> <span style="color: {{c.muted}};">{{t.catArcanjo}}</span></span>
+              <span style="color: {{c.muted}};">2024</span>
+            </div>
+          </div>
+          <!-- trio -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; align-items: start;">
+            <sc-for list="{{projects}}" as="p" hint-placeholder-count="3">
+              <div class="rv">
+                <div class="hg-slide" style="border-radius: 6px; overflow: hidden; background: {{c.soft}}; aspect-ratio: 3 / 4;">
+                  <img src="{{p.img}}" alt="{{p.name}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+                <div style="display: flex; justify-content: space-between; gap: 16px; padding-top: 14px; font-size: 17px;">
+                  <span><strong>{{p.name}}</strong> <span style="color: {{c.muted}};">{{p.cat}}</span></span>
+                  <span style="color: {{c.muted}};">{{p.year}}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <!-- duo of wide pieces -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; margin-top: 36px;">
+            <sc-for list="{{wides}}" as="w" hint-placeholder-count="2">
+              <div class="rv">
+                <div class="hg-slide" style="border-radius: 6px; overflow: hidden; background: #0b0b0b; aspect-ratio: 16 / 9;">
+                  <img src="{{w.img}}" alt="{{w.name}}" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                </div>
+                <div style="display: flex; justify-content: space-between; gap: 16px; padding-top: 14px; font-size: 17px;">
+                  <span><strong>{{w.name}}</strong> <span style="color: {{c.muted}};">{{w.cat}}</span></span>
+                  <span style="color: {{c.muted}};">{{w.year}}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <!-- more projects, compact -->
+          <p class="rv" style="margin: 64px 0 16px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">{{t.more}}</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <sc-for list="{{more}}" as="m" hint-placeholder-count="4">
+              <a href="{{m.href}}" class="rv" style="display: block; text-decoration: none;">
+                <div class="hg-slide" style="border-radius: 6px; overflow: hidden; background: {{c.soft}}; aspect-ratio: 1 / 1;">
+                  <img src="{{m.img}}" alt="{{m.name}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+                <p style="margin: 10px 0 0; font-size: 15px;"><strong>{{m.name}}</strong> <span style="color: {{c.muted}};">{{m.cat}}</span></p>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- B · CARROSSÉIS (rails) and C · CONGRESSOS -->
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="2">
+        <div style="margin-top: 96px;">
+          <div class="rv" style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 8px;">
+            <p style="margin: 0; display: flex; gap: 14px; align-items: baseline;"><span style="font-family: 'Instrument Serif', serif; font-size: 22px; color: {{c.accent}};">{{g.letter}}</span><span style="font-size: 24px; font-weight: 700;">{{g.title}}</span></p>
+            <span style="font-size: 14px; color: {{c.muted}};">{{g.note}}</span>
+          </div>
+          <sc-for list="{{g.rails}}" as="r" hint-placeholder-count="2">
+            <div class="rv" style="padding: 28px 0 36px; border-bottom: 1px solid {{c.line}};">
+              <div style="overflow: hidden; border-radius: 6px;">
+                <div class="hg-track" style="display: flex; gap: 16px; {{r.trackStyle}}">
+                  <sc-for list="{{r.slides}}" as="s" hint-placeholder-count="4">
+                    <div class="hg-slide" style="flex: 0 0 {{r.w}}px; aspect-ratio: {{r.ratio}}; border-radius: 6px; overflow: hidden; background: {{c.soft}};">
+                      <img src="{{s.src}}" alt="{{s.alt}}" loading="lazy" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 18px;">
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                  <strong style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 28px; line-height: 1.1;">{{r.title}}</strong>
+                  <span style="font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">{{r.client}}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span style="font-size: 14px; font-variant-numeric: tabular-nums; color: {{c.muted}}; min-width: 64px; text-align: right;">{{r.counter}}</span>
+                  <button type="button" onClick="{{r.prev}}" aria-label="{{t.prev}} — {{r.title}}" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; cursor: pointer; font-size: 18px;">←</button>
+                  <button type="button" onClick="{{r.next}}" aria-label="{{t.next}} — {{r.title}}" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{c.ink}}; background: {{c.ink}}; color: {{c.bg}}; cursor: pointer; font-size: 18px;">→</button>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+
+      <!-- D · CATHOLICUM — ocultável (Tweaks › showCatholicum) -->
+      <sc-if value="{{showD}}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top: 96px;">
+          <div class="rv" style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 28px;">
+            <p style="margin: 0; display: flex; gap: 14px; align-items: baseline;"><span style="font-family: 'Instrument Serif', serif; font-size: 22px; color: {{c.accent}};">{{letterD}}</span><span style="font-size: 24px; font-weight: 700;">{{t.cathTitle}}</span></p>
+            <span style="font-size: 14px; color: {{c.muted}};">{{t.cathCredit}}</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+            <sc-for list="{{cath}}" as="k" hint-placeholder-count="5">
+              <div class="rv">
+                <div class="hg-slide" style="border-radius: 6px; overflow: hidden; aspect-ratio: 16 / 10; background: {{c.soft}};">
+                  <img src="{{k.img}}" alt="{{k.name}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+                <p style="margin: 12px 0 0; font-size: 16px;"><strong>{{k.name}}</strong> <span style="color: {{c.muted}};">{{k.cat}}</span></p>
+              </div>
+            </sc-for>
+            <div class="rv" style="border-radius: 6px; border: 1px solid {{c.line}}; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; min-height: 200px;">
+              <p style="margin: 0; font-family: 'Instrument Serif', serif; font-size: 26px; line-height: 1.2;">{{t.cathQuote}}</p>
+              <span style="font-size: 14px; color: {{c.muted}};">{{t.cathScope}}</span>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="servicos" style="padding: 120px 24px; background: {{c.soft}};">
+    <div style="max-width: 1320px; margin: 0 auto;">
+      <p class="rv" style="margin: 0 0 12px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">/ 03 · {{t.servLabel}}</p>
+      <h2 class="rv" style="margin: 0 0 48px; font-size: clamp(36px, 4vw, 56px); letter-spacing: -.02em; line-height: 1; max-width: 760px;">{{t.servTitle}}</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); border-top: 1px solid {{c.line}};">
+        <sc-for list="{{services}}" as="s" hint-placeholder-count="4">
+          <div class="rv" style="padding: 28px 28px 32px 0; border-bottom: 1px solid {{c.line}}; display: flex; flex-direction: column; gap: 12px;">
+            <span style="font-family: 'Instrument Serif', serif; font-size: 34px; color: {{c.accent}}; line-height: 1;">{{s.n}}</span>
+            <h3 style="margin: 0; font-size: 21px;">{{s.title}}</h3>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: {{c.muted}};">{{s.text}}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top: 80px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
+        <sc-for list="{{steps}}" as="st" hint-placeholder-count="4">
+          <div class="rv" style="position: relative; padding: 28px; border: 1px solid {{c.line}}; border-radius: 6px; overflow: hidden; min-height: 180px; display: flex; flex-direction: column; gap: 8px;">
+            <span aria-hidden="true" style="position: absolute; right: 16px; top: 4px; font-family: 'Instrument Serif', serif; font-size: 88px; line-height: 1; color: {{c.line}};">{{st.n}}</span>
+            <span style="font-size: 12px; letter-spacing: .16em; color: {{c.accent}}; font-weight: 700; text-transform: uppercase;">{{st.k}}</span>
+            <strong style="font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 34px;">{{st.title}}</strong>
+            <span style="font-size: 15px; line-height: 1.5; color: {{c.muted}};">{{st.text}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="sobre" style="padding: 120px 24px;">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 56px; align-items: center;">
+      <div class="rv" style="border-radius: 24px; overflow: hidden; aspect-ratio: 900 / 1218; max-width: 460px; background: #E9E9E9;">
+        <img src="/_blob/7ed04ef32ca6ac686f718bf2b9085792" alt="{{t.photoAlt}}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+      </div>
+      <div class="rv" style="display: flex; flex-direction: column; gap: 22px;">
+        <p style="margin: 0; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">/ 04 · {{t.aboutLabel}}</p>
+        <h2 style="margin: 0; font-size: clamp(36px, 4vw, 56px); letter-spacing: -.02em; line-height: 1;">Hugu Gomes</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.65; color: {{c.muted}};">{{t.aboutP1}}</p>
+        <p style="margin: 0; font-size: 18px; line-height: 1.65; color: {{c.muted}};">{{t.aboutP2}}</p>
+        <blockquote style="margin: 8px 0 0; padding: 0; font-family: 'Instrument Serif', serif; font-style: italic; font-size: 26px; line-height: 1.25;">“{{t.quote}}” <span style="font-family: 'Archivo', sans-serif; font-style: normal; font-size: 14px; color: {{c.muted}};">— Santa Teresinha</span></blockquote>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px;">
+          <a href="CV.dc.html" style="height: 48px; padding: 0 22px; display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid {{c.ink}}; text-decoration: none; font-weight: 600;">{{t.cvBtn}}</a>
+          <a href="Links.dc.html" style="height: 48px; padding: 0 22px; display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid {{c.line}}; text-decoration: none; font-weight: 600;">{{t.linksBtn}}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contato" class="hg-build-scope" style="padding: 120px 24px; background: {{c.accent}}; color: {{c.accentInk}};">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+      <h2 aria-label="{{t.ctaTitle}}" style="margin: 0; font-size: clamp(48px, 7vw, 112px); line-height: .92; letter-spacing: -.03em; font-stretch: 80%; font-weight: 800; max-width: 1100px; display: flex; flex-wrap: wrap; gap: 0 .22em;">
+        <sc-for list="{{ctaWords}}" as="w" hint-placeholder-count="5">
+          <span aria-hidden="true" style="display: inline-flex; white-space: nowrap;">
+            <sc-for list="{{w.letters}}" as="ch" hint-placeholder-count="5">
+              <span class="hg-build" style="{{ch.st}}">{{ch.ch}}</span>
+            </sc-for>
+          </span>
+        </sc-for>
+      </h2>
+      <p class="rv" style="margin: 0; font-size: 19px; line-height: 1.5; max-width: 620px;">{{t.ctaText}}</p>
+      <div class="rv" style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="https://wa.me/5511980737232" style="height: 56px; padding: 0 28px; display: inline-flex; align-items: center; border-radius: 999px; background: {{c.accentInk}}; color: {{c.accent}}; text-decoration: none; font-weight: 700;">{{t.ctaBtn}}</a>
+        <a href="#contato" style="height: 56px; padding: 0 28px; display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid {{c.accentInk}}; text-decoration: none; font-weight: 600;">[contato@hugudesign.com.br]</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="padding: 40px 24px; border-top: 1px solid {{c.line}};">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 15px; color: {{c.muted}};">
+      <span>© 2026 Hugu Gomes · Guarulhos · Foz do Iguaçu</span>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <a href="#contato" style="text-decoration: none;">Instagram</a>
+        <a href="#contato" style="text-decoration: none;">Behance</a>
+        <a href="#contato" style="text-decoration: none;">LinkedIn</a>
+        <a href="#contato" style="text-decoration: none;">GitHub</a>
+        <a href="#contato" style="text-decoration: none;">YouTube</a>
+        <a href="Links.dc.html" style="text-decoration: none;">Links</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MINI AGENT: pixel cube with glasses, looks at the cursor -->
+  <sc-if value="{{showBot}}" hint-placeholder-val="{{ true }}">
+    <div style="position: fixed; right: 20px; bottom: 20px; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+      <sc-if value="{{botOpen}}" hint-placeholder-val="{{ false }}">
+        <div class="hg-pop" role="dialog" aria-label="HG" style="width: 260px; padding: 18px; border-radius: 14px; background: {{c.card}}; color: {{c.ink}}; border: 1px solid {{c.line}}; box-shadow: 0 24px 48px -20px rgba(0,0,0,.35); display: flex; flex-direction: column; gap: 12px;">
+          <p style="margin: 0; font-size: 15px; line-height: 1.45;">{{t.botHi}}</p>
+          <a href="#trabalhos" onClick="{{toggleBot}}" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 10px; border: 1px solid {{c.line}}; text-decoration: none; font-weight: 600; font-size: 14px;">{{t.botWork}} →</a>
+          <a href="https://wa.me/5511980737232" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 10px; background: {{c.accent}}; color: {{c.accentInk}}; text-decoration: none; font-weight: 600; font-size: 14px;">{{t.botQuote}} →</a>
+        </div>
+      </sc-if>
+      <button type="button" onClick="{{toggleBot}}" aria-label="{{t.botLabel}}" aria-expanded="{{botExpanded}}" class="hg-bob" style="width: 76px; height: 76px; border: 0; background: transparent; cursor: pointer; perspective: 360px; padding: 0;">
+        <div style="width: 56px; height: 56px; margin: 10px; position: relative; transform-style: preserve-3d; transition: transform .18s ease-out; {{bot.rot}}">
+          <div style="position: absolute; inset: 0; transform: translateZ(28px); background: linear-gradient(160deg, {{c.botFront}} 0%, {{c.botSide}} 140%); border-radius: 6px; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.18), inset 0 -6px 10px rgba(0,0,0,.18); overflow: hidden;">
+            <svg viewBox="0 0 20 20" width="56" height="56" aria-hidden="true" style="display: block;">
+              <!-- curly hair, pixel style -->
+              <g fill="#15120F" shape-rendering="crispEdges">
+                <rect x="0" y="0" width="20" height="4"></rect>
+                <rect x="0" y="4" width="3" height="2"></rect><rect x="4" y="4" width="2" height="2"></rect><rect x="7" y="4" width="3" height="1"></rect><rect x="11" y="4" width="2" height="2"></rect><rect x="14" y="4" width="3" height="1"></rect><rect x="18" y="4" width="2" height="3"></rect>
+                <rect x="5" y="6" width="1" height="1"></rect><rect x="12" y="6" width="1" height="1"></rect><rect x="0" y="6" width="1" height="2"></rect>
+              </g>
+              <g fill="#2B2420" shape-rendering="crispEdges"><rect x="2" y="1" width="1" height="1"></rect><rect x="6" y="2" width="1" height="1"></rect><rect x="10" y="1" width="1" height="1"></rect><rect x="14" y="2" width="1" height="1"></rect><rect x="17" y="1" width="1" height="1"></rect></g>
+              <!-- eyebrows -->
+              <rect x="4.3" y="7.4" width="3.2" height=".7" rx=".35" fill="#15120F"></rect>
+              <rect x="12.5" y="7.4" width="3.2" height=".7" rx=".35" fill="#15120F"></rect>
+              <!-- round glasses + eyes -->
+              <g class="hg-blink">
+                <circle cx="6.2" cy="11" r="3" fill="#EEF4FA"></circle>
+                <circle cx="13.8" cy="11" r="3" fill="#EEF4FA"></circle>
+                <g transform="{{bot.eyes}}">
+                  <circle cx="6.2" cy="11" r="1.15" fill="#15120F"></circle>
+                  <circle cx="13.8" cy="11" r="1.15" fill="#15120F"></circle>
+                  <circle cx="6.65" cy="10.55" r=".38" fill="#FFFFFF"></circle>
+                  <circle cx="14.25" cy="10.55" r=".38" fill="#FFFFFF"></circle>
+                </g>
+              </g>
+              <g fill="none" stroke="#15120F" stroke-width=".8" stroke-linecap="round">
+                <circle cx="6.2" cy="11" r="3"></circle>
+                <circle cx="13.8" cy="11" r="3"></circle>
+                <path d="M9.2 10.6 Q10 9.9 10.8 10.6"></path>
+                <path d="M3.2 10.7 L0 10.2 M16.8 10.7 L20 10.2"></path>
+              </g>
+              <path d="M7.4 9.3 L8.2 8.6" stroke="#FFFFFF" stroke-width=".45" stroke-linecap="round" opacity=".8"></path>
+              <path d="M15 9.3 L15.8 8.6" stroke="#FFFFFF" stroke-width=".45" stroke-linecap="round" opacity=".8"></path>
+              <!-- cheeks + smile -->
+              <circle cx="3.4" cy="15.2" r="1" fill="#FF9FB6" opacity=".55"></circle>
+              <circle cx="16.6" cy="15.2" r="1" fill="#FF9FB6" opacity=".55"></circle>
+              <path d="M8.2 15.3 Q10 17.1 11.8 15.3" fill="none" stroke="#15120F" stroke-width=".8" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <div style="position: absolute; inset: 0; transform: rotateY(90deg) translateZ(28px); background: {{c.botSide}}; border-radius: 6px;"></div>
+          <div style="position: absolute; inset: 0; transform: rotateY(-90deg) translateZ(28px); background: {{c.botSide}}; border-radius: 6px;"></div>
+          <div style="position: absolute; inset: 0; transform: rotateX(90deg) translateZ(28px); background: #15120F; border-radius: 6px;"></div>
+          <div style="position: absolute; inset: 0; transform: rotateX(-90deg) translateZ(28px); background: {{c.botSide}}; border-radius: 6px;"></div>
+        </div>
+      </button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"showCatholicum":{"editor":"boolean","default":true,"section":"Conteúdo"},"showCongressos":{"editor":"boolean","default":true,"section":"Conteúdo"},"showAgent":{"editor":"boolean","default":true,"section":"Conteúdo"},"startDark":{"editor":"boolean","default":false,"section":"Tema"},"accent":{"editor":"color","default":"#0B4F8A","options":["#0B4F8A","#1E5BD8","#8A2B2B","#1D3B2F"],"section":"Tema"},"$preview":{"width":1440,"height":8200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { lang: 'pt', dark: null, mx: 50, my: 38, hover: false, filter: 'all', pos: {}, cx: 0, cy: 0, botOpen: false };
+    this.tick = 0;
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      if (this.state.hover) return;
+      this.tick += 0.035;
+      this.setState({ mx: 50 + 24 * Math.sin(this.tick), my: 38 + 20 * Math.sin(this.tick * 1.37) });
+    }, 40);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  copy() {
+    return {
+      pt: {
+        navWork: 'Trabalhos', navServices: 'Serviços', navAbout: 'Sobre', navContact: 'Contato', navCta: 'Iniciar projeto',
+        langLabel: 'Idioma', themeLabel: 'Alternar modo claro e escuro', kicker: 'Designer de marcas', place: 'Guarulhos, SP · hoje em Foz do Iguaçu, PR',
+        photoAlt: 'Retrato de Hugu Gomes', heroSub: 'Identidade visual, branding e comunicação para marcas que querem ser levadas a sério — no Brasil e fora dele. Atendo em português, inglês e espanhol.',
+        heroBtn1: 'Ver trabalhos', heroBtn2: 'Iniciar um projeto', heroHint: 'Passe o cursor sobre a foto.', clientsLabel: 'Marcas e eventos atendidos',
+        manifestoA: 'Marca não é enfeite. É', manifestoB: 'fundamento.',
+        manifestoP1: 'Desde 2019 desenho marcas e campanhas para comércios, profissionais da saúde, infoprodutores, eventos e instituições.',
+        manifestoP2: 'Meu trabalho é organizar o que a sua marca já tem de verdadeiro e transformar isso em um sistema visual claro, consistente e difícil de esquecer.',
+        drawLabel: 'Grade de construção do monograma HG sendo desenhada',
+        workLabel: 'Portfólio', workTitleA: 'Quando a ideia encontra a', workTitleB: 'forma certa.', filterLabel: 'Filtrar trabalhos',
+        fAll: 'Todos', fA: 'Identidade', fB: 'Social media', fC: 'Congressos & eventos',
+        secA: 'Identidades & campanhas', secB: 'Carrosséis & social media', secC: 'Congresso Espectro', secD: 'Cobertura de eventos',
+        noteB: 'Use as setas para ver cada lâmina', noteC: 'Comunicação do maior evento sobre autismo do Brasil', noteD: 'Carrosséis criados no dia do evento · CMAC & CINA',
+        catArcanjo: 'Campanha vocacional · key visual & carrossel', more: 'Mais projetos', seeCase: 'Ver case', prev: 'Lâmina anterior', next: 'Próxima lâmina',
+        cathTitle: 'Identidades institucionais', cathCredit: 'Em parceria com Catholicum Studio',
+        cathQuote: 'Brasões, símbolos e sistemas completos: papelaria, sinalização e manual de marca.', cathScope: 'Identidade visual · Manual · Aplicações',
+        servLabel: 'Serviços', servTitle: 'Do símbolo ao feed, tudo falando a mesma língua.',
+        aboutLabel: 'Quem está por trás',
+        aboutP1: 'Designer especializado em identidade visual e branding, atuando profissionalmente desde 2019. Ajudei pequenas empresas a se digitalizarem na pandemia, dirigi campanhas em agência e hoje trabalho presencialmente com o Grupo Empresarial Castro, em Foz do Iguaçu, na comunicação de congressos médicos.',
+        aboutP2: 'Combino a formação em Design Gráfico com estratégia de marca para criar soluções que conectam propósito, criatividade e resultado.',
+        quote: 'É justo que muito custe aquilo que muito vale.', cvBtn: 'Ver currículo', linksBtn: 'Página de links',
+        ctaTitle: 'Vamos construir algo que dure?', ctaKicker: 'Começar um projeto', ctaText: 'Conte o que você precisa. Respondo com um caminho claro, prazo e proposta.', ctaBtn: 'Conversar no WhatsApp',
+        botLabel: 'Abrir assistente HG', botHi: 'Oi! Eu sou o HG, o ajudante pixelado do Hugu. Quer ver os trabalhos ou já pedir um orçamento?', botWork: 'Ver trabalhos', botQuote: 'Pedir orçamento'
+      },
+      en: {
+        navWork: 'Work', navServices: 'Services', navAbout: 'About', navContact: 'Contact', navCta: 'Start a project',
+        langLabel: 'Language', themeLabel: 'Toggle light and dark mode', kicker: 'Brand designer', place: 'São Paulo · currently in Foz do Iguaçu, Brazil',
+        photoAlt: 'Portrait of Hugu Gomes', heroSub: 'Visual identity, branding and communication for brands that want to be taken seriously — in Brazil and abroad. I work in English, Portuguese and Spanish.',
+        heroBtn1: 'See work', heroBtn2: 'Start a project', heroHint: 'Hover over the photo.', clientsLabel: 'Brands and events',
+        manifestoA: 'A brand is not decoration. It is a', manifestoB: 'foundation.',
+        manifestoP1: 'Since 2019 I have designed brands and campaigns for local businesses, healthcare professionals, digital creators, events and institutions.',
+        manifestoP2: 'My job is to organise what is already true about your brand and turn it into a visual system that is clear, consistent and hard to forget.',
+        drawLabel: 'Construction grid of the HG monogram being drawn',
+        workLabel: 'Portfolio', workTitleA: 'When the idea finds the', workTitleB: 'right form.', filterLabel: 'Filter work',
+        fAll: 'All', fA: 'Identity', fB: 'Social media', fC: 'Congresses & events',
+        secA: 'Identities & campaigns', secB: 'Carousels & social media', secC: 'Espectro Congress', secD: 'Event coverage',
+        noteB: 'Use the arrows to browse each slide', noteC: 'Communication for Brazil’s largest autism event', noteD: 'Carousels made on the day of the event · CMAC & CINA',
+        catArcanjo: 'Vocational campaign · key visual & carousel', more: 'More projects', seeCase: 'See case', prev: 'Previous slide', next: 'Next slide',
+        cathTitle: 'Institutional identities', cathCredit: 'In partnership with Catholicum Studio',
+        cathQuote: 'Coats of arms, symbols and complete systems: stationery, signage and brand guidelines.', cathScope: 'Visual identity · Guidelines · Applications',
+        servLabel: 'Services', servTitle: 'From symbol to feed, everything speaking the same language.',
+        aboutLabel: 'Behind the work',
+        aboutP1: 'Designer specialised in visual identity and branding, working professionally since 2019. I helped small businesses go digital during the pandemic, led campaigns at an agency and now work on-site with Grupo Empresarial Castro in Foz do Iguaçu, on communication for medical congresses.',
+        aboutP2: 'I combine my Graphic Design background with brand strategy to build work that connects purpose, creativity and results.',
+        quote: 'It is right that what is worth much should cost much.', cvBtn: 'View résumé', linksBtn: 'Links page',
+        ctaTitle: 'Shall we build something that lasts?', ctaKicker: 'Start a project', ctaText: 'Tell me what you need. I will reply with a clear path, timeline and proposal.', ctaBtn: 'Chat on WhatsApp',
+        botLabel: 'Open the HG assistant', botHi: 'Hi! I am HG, Hugu’s pixel sidekick. Want to see the work or ask for a quote?', botWork: 'See work', botQuote: 'Ask for a quote'
+      },
+      es: {
+        navWork: 'Trabajos', navServices: 'Servicios', navAbout: 'Sobre mí', navContact: 'Contacto', navCta: 'Iniciar proyecto',
+        langLabel: 'Idioma', themeLabel: 'Cambiar modo claro y oscuro', kicker: 'Diseñador de marcas', place: 'São Paulo · hoy en Foz do Iguaçu, Brasil',
+        photoAlt: 'Retrato de Hugu Gomes', heroSub: 'Identidad visual, branding y comunicación para marcas que quieren ser tomadas en serio — en Brasil y más allá. Atiendo en español, portugués e inglés.',
+        heroBtn1: 'Ver trabajos', heroBtn2: 'Iniciar un proyecto', heroHint: 'Pasa el cursor sobre la foto.', clientsLabel: 'Marcas y eventos',
+        manifestoA: 'Una marca no es adorno. Es', manifestoB: 'fundamento.',
+        manifestoP1: 'Desde 2019 diseño marcas y campañas para comercios, profesionales de la salud, creadores digitales, eventos e instituciones.',
+        manifestoP2: 'Mi trabajo es ordenar lo que tu marca ya tiene de verdadero y convertirlo en un sistema visual claro, consistente y difícil de olvidar.',
+        drawLabel: 'Retícula de construcción del monograma HG dibujándose',
+        workLabel: 'Portafolio', workTitleA: 'Cuando la idea encuentra la', workTitleB: 'forma correcta.', filterLabel: 'Filtrar trabajos',
+        fAll: 'Todos', fA: 'Identidad', fB: 'Redes', fC: 'Congresos y eventos',
+        secA: 'Identidades y campañas', secB: 'Carruseles y redes sociales', secC: 'Congreso Espectro', secD: 'Cobertura de eventos',
+        noteB: 'Usa las flechas para ver cada lámina', noteC: 'Comunicación del mayor evento sobre autismo de Brasil', noteD: 'Carruseles creados el día del evento · CMAC y CINA',
+        catArcanjo: 'Campaña vocacional · key visual y carrusel', more: 'Más proyectos', seeCase: 'Ver caso', prev: 'Lámina anterior', next: 'Siguiente lámina',
+        cathTitle: 'Identidades institucionales', cathCredit: 'En colaboración con Catholicum Studio',
+        cathQuote: 'Escudos, símbolos y sistemas completos: papelería, señalización y manual de marca.', cathScope: 'Identidad visual · Manual · Aplicaciones',
+        servLabel: 'Servicios', servTitle: 'Del símbolo al feed, todo hablando el mismo idioma.',
+        aboutLabel: 'Quién está detrás',
+        aboutP1: 'Diseñador especializado en identidad visual y branding, trabajando profesionalmente desde 2019. Ayudé a pequeñas empresas a digitalizarse en la pandemia, dirigí campañas en agencia y hoy trabajo de forma presencial con el Grupo Empresarial Castro, en Foz do Iguaçu, en la comunicación de congresos médicos.',
+        aboutP2: 'Combino mi formación en Diseño Gráfico con estrategia de marca para crear soluciones que conectan propósito, creatividad y resultados.',
+        quote: 'Es justo que mucho cueste aquello que mucho vale.', cvBtn: 'Ver currículum', linksBtn: 'Página de enlaces',
+        ctaTitle: '¿Construimos algo que perdure?', ctaKicker: 'Empezar un proyecto', ctaText: 'Cuéntame qué necesitas. Te respondo con un camino claro, plazo y propuesta.', ctaBtn: 'Hablar por WhatsApp',
+        botLabel: 'Abrir el asistente HG', botHi: '¡Hola! Soy HG, el ayudante pixelado de Hugu. ¿Quieres ver los trabajos o pedir un presupuesto?', botWork: 'Ver trabajos', botQuote: 'Pedir presupuesto'
+      }
+    };
+  }
+
+  rail(id, title, client, srcs, w, ratio, c) {
+    const n = srcs.length;
+    const i = Math.min(this.state.pos[id] || 0, n - 1);
+    const go = (d) => () => this.setState({ pos: Object.assign({}, this.state.pos, { [id]: (i + d + n) % n }) });
+    return {
+      title, client, w, ratio,
+      slides: srcs.map((src, k) => ({ src, alt: title + ' — ' + (k + 1) })),
+      counter: String(i + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0'),
+      trackStyle: 'transform: translateX(-' + (i * (w + 16)) + 'px);',
+      prev: go(-1), next: go(1)
+    };
+  }
+
+  renderVals() {
+    const L = this.state.lang;
+    const t = this.copy()[L];
+    const dark = this.state.dark === null ? !!this.props.startDark : this.state.dark;
+    const accentLight = this.props.accent ?? '#0B4F8A';
+    const c = dark ? {
+      bg: '#0A0F17', navBg: 'rgba(10,15,23,.78)', ink: '#EEF1F5', muted: '#A6B1C0', line: 'rgba(238,241,245,.14)', card: '#111926',
+      soft: '#111926', accent: '#6AAEF0', accentInk: '#06121F', logoBg: '#EEF1F5', ring: 'rgba(238,241,245,.7)', botFront: '#6AAEF0', botSide: '#2F6CA8', accentBright: '#6AAEF0'
+    } : {
+      bg: '#F3F1EC', navBg: 'rgba(243,241,236,.82)', ink: '#0D1724', muted: '#4F5B6B', line: 'rgba(13,23,36,.14)', card: '#FFFFFF',
+      soft: '#E8E4DB', accent: accentLight, accentInk: '#FFFFFF', logoBg: 'transparent', ring: 'rgba(13,23,36,.45)', botFront: '#3D86D6', botSide: '#0B4F8A', accentBright: '#6AAEF0'
+    };
+    const showCath = this.props.showCatholicum ?? true;
+    const showCong = this.props.showCongressos ?? true;
+    const F = this.state.filter;
+    const langs = ['pt', 'en', 'es'].map((code) => ({
+      code: code.toUpperCase(), on: code === L ? 'true' : 'false', bg: code === L ? c.ink : 'transparent', fg: code === L ? c.bg : c.ink,
+      pick: () => this.setState({ lang: code })
+    }));
+    const fdefs = [['all', t.fAll], ['a', t.fA], ['b', t.fB]].concat(showCong ? [['c', t.fC]] : []);
+    const filters = fdefs.map(([id, label]) => ({
+      label, on: F === id ? 'true' : 'false', bg: F === id ? c.ink : 'transparent', fg: F === id ? c.bg : c.ink, border: F === id ? c.ink : c.line,
+      pick: () => this.setState({ filter: id })
+    }));
+    const cat = {
+      pt: ['Carrosséis · filosofia clássica', 'Semana formativa · key visual', 'Lançamento imobiliário', 'Thumbnails para YouTube', 'Hero de landing page', 'Identidade & catálogo', 'Identidade & social media', 'Key visual de evento', 'Capas de carrossel'],
+      en: ['Carousels · classical philosophy', 'Formation week · key visual', 'Real estate launch', 'YouTube thumbnails', 'Landing page hero', 'Identity & catalog', 'Identity & social media', 'Event key visual', 'Carousel covers'],
+      es: ['Carruseles · filosofía clásica', 'Semana formativa · key visual', 'Lanzamiento inmobiliario', 'Miniaturas para YouTube', 'Hero de landing page', 'Identidad y catálogo', 'Identidad y redes', 'Key visual de evento', 'Portadas de carrusel']
+    }[L];
+    const projects = [
+      { name: 'Ricardo Langner', cat: cat[0], year: '2025', img: '/_blob/24f077b23a437201430319e2739105e7' },
+      { name: 'Anjos & Demônios', cat: cat[1], year: '2026', img: '/_blob/4d36a0e747cdc329f6fa6420cd462611' },
+      { name: 'Valorize · Dallo Parigi', cat: cat[2], year: '2025', img: '/_blob/0fb07efe5243be38922eb16668d65c5d' }
+    ];
+    const arcanjo = ['d1ef4df00fea8e90e0cb5681450cc286', '92403d1d3572795af61294d54ad1f820', '7d59d1138f3312f0e5ac4647037693f9', '53a53d9b7db9d073e2a9af62f1738368', '721da8e56c48ace8638c006e12d1dfba'].map((id, k) => ({ src: '/_blob/' + id, alt: 'Marista Arcanjo — lâmina ' + (k + 1) }));
+    const wides = [
+      { name: 'Estrateclass #55', cat: cat[3], year: '2025', img: '/_blob/5d3e50916390bf25816d1321b1027f2b' },
+      { name: 'Estrateclass #56', cat: cat[3], year: '2025', img: '/_blob/5ba18b1d8775afba19f8efd3786ba762' }
+    ];
+    const more = [
+      { name: 'Sítio Vai e Volta', cat: cat[5], img: '/_blob/f7d86a769aab1d0ce84dadf80595893a', href: 'Case.dc.html' },
+      { name: 'Vendas para Oftalmo', cat: cat[6], img: '/_blob/2bf453809b38f56800cd5cf58dbc9699', href: '#trabalhos' },
+      { name: 'Luau São Pier Giorgio', cat: cat[7], img: '/_blob/9f76cc8a6df6db6842f4c4f15eb2eaf5', href: '#trabalhos' },
+      { name: 'Triwer · DP24', cat: cat[8], img: '/_blob/dad48dcb14cab4f0cee0ebff672d98c6', href: '#trabalhos' }
+    ];
+    const B = (ids) => ids.map((id) => '/_blob/' + id);
+    const sm = { pt: 'Social media', en: 'Social media', es: 'Redes sociales' }[L];
+    const railsB = [
+      this.rail('ricardo', { pt: 'Filosofia e fé no feed', en: 'Philosophy and faith on the feed', es: 'Filosofía y fe en el feed' }[L], 'Ricardo Langner · ' + sm, B(['24f077b23a437201430319e2739105e7', '93378820cd1631a7a73fb7c839f95c7a', 'b560e840bc2f9a0ae613645a75d3ee6f']), 300, '3 / 4', c),
+      this.rail('ana', 'O que é a verdadeira felicidade?', 'Ir. Ana Paula · ' + sm, B(['18b40238035806ce9d11e1cb0c4c72b6', 'b8eb958f0c2a3ea27c9a87b9b8f77b86', '9c5f087e0639c3b4c85f19b170458d15', 'b21fb71aa47b161e2593d5aecec23d4c', '60d4efb8d20423eef30fe785a04c0871', '30ff145ea85c97d5bbd8b77b1fe4e3d9']), 300, '4 / 5', c),
+      this.rail('compromisso', { pt: 'Compromisso não é sentimento', en: 'Commitment is not a feeling', es: 'El compromiso no es un sentimiento' }[L], 'Ricardo Langner · ' + sm, B(['1d27afc46d663148e8d64cdf65d2bda7', 'b5b7680d62c8d84e71258298ba2af9a8', '92cb931cb27032d132f1320a99b0b615', '2b17b7006d5288adcdebc735fb51fab0', 'f0344645cc0c4287a0e66720560e63dc', 'ef30bb71727a0fb6f4759b60dc772926', '3279942375af9fa9619acabb4b57ec97', 'f1e3d31b26624add982797e1268faa2d']), 300, '3 / 4', c),
+      this.rail('bruna', 'Idosos independentes e felizes', 'Bruna · ' + sm, B(['7e5c26ce55ab589a7642de2c46ca87a6', '47483676eb8d5922db8730c8a88bfc0f', '8c893b5693a78bdb4ac459f25813e494', '7c0f1eb57324f37c3d01fb72fbc1fa2f', '119d5a9a224603bd6666a57372ac22ec', 'dfacc314b895a7d690caf9b6d0f5ea99']), 300, '4 / 5', c),
+      this.rail('carlos', 'Equilíbrio na vida', 'Carlos Eduardo · ' + sm, B(['97487d8758aceb7258e5643e425fcdb1', 'ca0d1efc03921a87e7149584644232f0', 'c34c4c5be0219cf5930f6218fc9b6533', 'a114041111ad3d54966ef78b33eaa577', '4645aed342218d3885ec28a660c52d3c', '5cc6f7f925655a46b70b3f25f7b4727e']), 300, '4 / 5', c)
+    ];
+    const railsC = [
+      this.rail('esp', 'Por que “Síndrome de Down” é chamada de Trissomia do 21?', 'Congresso Espectro 2026 · Carrossel', B(['275717c4103c97f7052896bdf30fdaf0', '9f1aaa67b4a254aa417bd513d828300b', '5273b4f2152f6de374ff7f0eeebdbf48', '6c8e12e63344db02cf780a61155ca560', '9c87f06a7c379d88d10c1135ad3f878e', '8069b90cd59dbf02cfb673aa82f0ef63', '231c7793c98976d3f1ccb3fc7b1089b8']), 300, '3 / 4', c),
+      this.rail('sup', 'Superdotação agora é lei', 'Congresso Espectro 2026 · Carrossel', B(['96f17f969f89f45e090dbd2ce7165eea', 'fc1effc53b46a205577663605fa0ba4f', '1c4dee5cf1ddb30af775f0e7f3ff3802', '1d47429ac213ae0566074734163c3912', 'c72e87aacb0416db886f21baf6604364', '56d35cf529d3f6cfa96ff2071dd6c59a']), 300, '3 / 4', c),
+      this.rail('tdah', 'O homem que revolucionou a compreensão do TDAH', 'Congresso Espectro 2026 · Carrossel', B(['42872eae459bcc63f3f1d4a78d18bf16', '0af6890e9022d37903622d1a23b5810f', '55c7828da8f4b1542da65e7d747e7cc7', '27d117a05db00a93c50b47f610f2db6e', 'ce9a7947520f5199d62a3a52d44c77a8', '78f5509ba800393e1f827a6a8dc0a11a']), 300, '3 / 4', c),
+      this.rail('rr', 'Você teria coragem de pegar um mapa de papel?', 'Congresso Espectro 2026 · Dr. Raphael Rangel', B(['4097fecca64edf5124785142be33e1d1', '9f3f6dc914228126f7d5a0a25ffa0a73', '602ccd2e91159974fc0ed4dbd4237e28', 'b1ea6b1405046215613297f41f5e22c2', '0bb1a8ccd5b8a66097f6c3e595b1cd54', '8a7dd7716f6664299de0175504a44668']), 300, '3 / 4', c),
+      this.rail('tudo', 'Tudo o que você precisa saber', 'Congresso Espectro 2026 · Carrossel', B(['6e3cf2df04bc30487070f16fa679959d', '6967864c1c1ff60ce9cbc6838c2e3046', 'e67042019b8ee41946b632a82568cc29', '4e52674ef4c6145235b887b2ff471b05', 'a36d8588fe69bd67fbda76aa61f9ba27', 'df74fbbd3b9784fda1cb5272fbd10adf']), 300, '4 / 5', c)
+    ];
+    const cov = { pt: 'Cobertura ao vivo', en: 'Live coverage', es: 'Cobertura en vivo' }[L];
+    const railsD = [
+      this.rail('cmd1', { pt: 'CMAC · Dia 1', en: 'CMAC · Day 1', es: 'CMAC · Día 1' }[L], 'CMAC 2026 · ' + cov, B(['52419eecfe2bb3f4ce4122e20ceafe1b', '59931065801ae9a28b5460f21c1f3654', 'c23165de84aab7aa5d20db8867e74701', '70810cedff76aab789f07872444d85ca', 'a74ab091142099a71fe09d96c53f1b1f']), 300, '3 / 4', c),
+      this.rail('cmd2', { pt: 'CMAC · Dia 2', en: 'CMAC · Day 2', es: 'CMAC · Día 2' }[L], 'CMAC 2026 · ' + cov, B(['6865953f087b8f8bb2a84ca648dcacc7', '2d1bc6152b5fdf12c63833011b461531', 'cf07677c8ae4cee2b8f2486327f6e2a7', '9efe09b6125a1d79f3eff59af9bb8a22', '1583e2eb2f0f0436f72f241a565cd9c7']), 300, '3 / 4', c),
+      this.rail('cmpos', { pt: 'CMAC · Pós-evento', en: 'CMAC · After the event', es: 'CMAC · Post evento' }[L], 'CMAC 2026 · ' + cov, B(['c2cd2d2ca87771a10e4ce728d98348be', '179ae044951a69008c4ade866fd36c91', '03e937a5545fb4b573d1cfab28c9e32f', 'cf3880ee912c2dd6caa2a7308bac80c9', '04172f08b3e4b7a9fdf7b604c812e0b3']), 300, '3 / 4', c),
+      this.rail('cina16', { pt: 'CINA · Tarde do primeiro dia', en: 'CINA · Day one afternoon', es: 'CINA · Tarde del primer día' }[L], 'Congresso INA 2026 · ' + cov, B(['e15ae9c6870831853eb0a67af8e556b3', '6695c2747c92dd4aa56b45878e2fd144', '338b7efba7ed882b32f98a25e0bde9ed', '0b77c97fcffa164b80e0790a2f6dc9c7', '10168f8b731fb6c67494a279f528535b']), 300, '4 / 5', c),
+      this.rail('cina18', { pt: 'CINA · Começou em oração', en: 'CINA · It began in prayer', es: 'CINA · Empezó en oración' }[L], 'Congresso INA 2026 · ' + cov, B(['b6421a46c3f8b5213962d52feb358437', '9a79b7dadfc463916594a0e57cc6d1d8', '432d4168d30d3fd9b19341ccee4d4795', '7de97ab02e3faf17b5baac0ec1999d95', '4eb700cfa9c4a047c34e8543f876c214']), 300, '4 / 5', c),
+      this.rail('ina', { pt: 'Estande INA', en: 'INA booth', es: 'Stand INA' }[L], 'Congresso INA 2026 · ' + cov, B(['d461a20e4479180d4b8711c8a363658c', '78252616486f6e307dc9183fed605c3e', 'a5bc3a9a33798ffe26d2a801a632e70d', '9b7dab4987f94b680f167aa901259997', 'f5145f072f854723033cb907445d340e', 'fcc678e0962a133308a79b40a811429b']), 300, '4 / 5', c)
+    ];
+    const groups = [];
+    if (F === 'all' || F === 'b') groups.push({ letter: 'B', title: t.secB, note: t.noteB, rails: railsB });
+    if (showCong && (F === 'all' || F === 'c')) groups.push({ letter: 'C', title: t.secC, note: t.noteC, rails: railsC });
+    if (showCong && (F === 'all' || F === 'c')) groups.push({ letter: 'D', title: t.secD, note: t.noteD, rails: railsD });
+    const kc = { pt: ['Educação', 'Santuário', 'Paróquia', 'Memória e devoção', 'Paróquia'], en: ['Education', 'Shrine', 'Parish', 'Memorial & devotion', 'Parish'], es: ['Educación', 'Santuario', 'Parroquia', 'Memoria y devoción', 'Parroquia'] }[L];
+    const cath = [
+      { name: 'Colégio São Gonçalo', cat: kc[0], img: '/_blob/6bae1b5a7c443cc754c07adbca035e05' },
+      { name: 'N. Sra. das Neves', cat: kc[1], img: '/_blob/c56ce8e0d86fd9822c132508e68a2a95' },
+      { name: 'São Domingos de Gusmão', cat: kc[2], img: '/_blob/13d6edab96ce42e53c39c5a0fe90afad' },
+      { name: 'Beato Nazareno Lanciotti', cat: kc[3], img: '/_blob/8d7596cf9b52afd3902f8f11f7ec6670' },
+      { name: 'N. Sra. da Saúde', cat: kc[4], img: '/_blob/b3cd653d3b5043daed650522bb340caf' }
+    ];
+    const names = {
+      pt: ['Design estratégico', 'Branding', 'Identidade visual', 'Social media', 'Direção de arte', 'Carrosséis', 'Motion design', 'Cobertura de eventos'],
+      en: ['Strategic design', 'Branding', 'Visual identity', 'Social media', 'Art direction', 'Carousels', 'Motion design', 'Event coverage'],
+      es: ['Diseño estratégico', 'Branding', 'Identidad visual', 'Redes sociales', 'Dirección de arte', 'Carruseles', 'Motion design', 'Cobertura de eventos']
+    }[L];
+    const marquee = names.concat(names).map((name) => ({ name: name.toUpperCase() }));
+    const sv = {
+      pt: [['Identidade visual & branding', 'Símbolo, sistema visual, manual de marca e aplicações.'], ['Social media & carrosséis', 'Linha editorial e peças que mantêm a marca consistente todos os dias.'], ['Lançamentos & eventos', 'Key visuals, criativos, apresentações e materiais para lançamentos e congressos.'], ['Motion & vídeo', 'Motion cards, aberturas e edição para redes e cobertura de eventos.']],
+      en: [['Visual identity & branding', 'Symbol, visual system, brand guidelines and applications.'], ['Social media & carousels', 'Editorial line and pieces that keep the brand consistent every day.'], ['Launches & events', 'Key visuals, ad creatives, presentations and materials for launches and congresses.'], ['Motion & video', 'Motion cards, openers and editing for social and event coverage.']],
+      es: [['Identidad visual y branding', 'Símbolo, sistema visual, manual de marca y aplicaciones.'], ['Redes y carruseles', 'Línea editorial y piezas que mantienen la marca consistente cada día.'], ['Lanzamientos y eventos', 'Key visuals, creativos, presentaciones y materiales para lanzamientos y congresos.'], ['Motion y video', 'Motion cards, aperturas y edición para redes y cobertura de eventos.']]
+    }[L];
+    const services = sv.map((s, i) => ({ n: '0' + (i + 1), title: s[0], text: s[1] }));
+    const sp = {
+      pt: [['O princípio', 'Escutar', 'Briefing e imersão no seu negócio.'], ['A estrutura', 'Ordenar', 'Posicionamento, referências e direção.'], ['A forma', 'Compor', 'Criação, ajustes e validação.'], ['A entrega', 'Entregar', 'Manual, arquivos finais e aplicações.']],
+      en: [['The principle', 'Listen', 'Briefing and a deep dive into your business.'], ['The structure', 'Organise', 'Positioning, references and direction.'], ['The form', 'Compose', 'Design, refinement and approval.'], ['The delivery', 'Deliver', 'Guidelines, final files and applications.']],
+      es: [['El principio', 'Escuchar', 'Briefing e inmersión en tu negocio.'], ['La estructura', 'Ordenar', 'Posicionamiento, referencias y dirección.'], ['La forma', 'Componer', 'Creación, ajustes y validación.'], ['La entrega', 'Entregar', 'Manual, archivos finales y aplicaciones.']]
+    }[L];
+    const steps = sp.map((s, i) => ({ n: '0' + (i + 1), k: '0' + (i + 1) + ' · ' + s[0], title: s[1], text: s[2] }));
+    const x = this.state.mx.toFixed(1), y = this.state.my.toFixed(1);
+    const g = 'radial-gradient(circle 130px at ' + x + '% ' + y + '%, #000 0 97%, transparent 100%)';
+    // mini agent: angle toward cursor from the bot's corner
+    const W = (typeof window !== 'undefined' ? window.innerWidth : 1440), H = (typeof window !== 'undefined' ? window.innerHeight : 900);
+    const dx = this.state.cx ? this.state.cx - (W - 58) : -400, dy = this.state.cy ? this.state.cy - (H - 58) : -300;
+    const clamp = (v, a) => Math.max(-a, Math.min(a, v));
+    const ry = clamp(dx / 14, 38), rx = clamp(-dy / 14, 32);
+    const ex = clamp(dx / 260, 1.1), ey = clamp(dy / 260, 1.1);
+    return {
+      ctaWords: t.ctaTitle.split(' ').map((w, wi) => ({
+        letters: Array.from(w).map((ch, i) => {
+          const k = wi * 7 + i + 1;
+          const x = (((k * 37) % 13) - 6) * 18, y = (((k * 53) % 11) - 5) * 26, r = (((k * 29) % 9) - 4) * 14, s = 0.7 + ((k * 17) % 7) / 10;
+          return { ch, st: '--x:' + x + 'px; --y:' + y + 'px; --r:' + r + 'deg; --s:' + s.toFixed(2) + ';' };
+        })
+      })),
+      mosaic: ['7c210ffc376a2613df4d01a063921967', '1d27afc46d663148e8d64cdf65d2bda7', '4d36a0e747cdc329f6fa6420cd462611', 'd1ef4df00fea8e90e0cb5681450cc286', '24f077b23a437201430319e2739105e7', '0fb07efe5243be38922eb16668d65c5d', '18b40238035806ce9d11e1cb0c4c72b6', '93378820cd1631a7a73fb7c839f95c7a', '5ba18b1d8775afba19f8efd3786ba762', 'f7d86a769aab1d0ce84dadf80595893a', '7e5c26ce55ab589a7642de2c46ca87a6', 'b560e840bc2f9a0ae613645a75d3ee6f'].map((id) => ({ src: '/_blob/' + id })),
+      t, c, langs, filters, projects, wides, more, groups, arcanjo, cath, marquee, services, steps,
+      dark, light: !dark,
+      showA: F === 'all' || F === 'a',
+      showD: showCath && (F === 'all' || F === 'a'),
+      letterD: (F === 'all' && showCong) ? 'E' : 'C',
+      showBot: this.props.showAgent ?? true,
+      botOpen: this.state.botOpen, botExpanded: this.state.botOpen ? 'true' : 'false',
+      bot: { rot: 'transform: rotateX(' + rx.toFixed(1) + 'deg) rotateY(' + ry.toFixed(1) + 'deg);', eyes: 'translate(' + ex.toFixed(2) + ' ' + ey.toFixed(2) + ')' },
+      toggleBot: () => this.setState({ botOpen: !this.state.botOpen }),
+      lensMask: '-webkit-mask-image: ' + g + '; mask-image: ' + g + ';',
+      ringPos: 'left: ' + x + '%; top: ' + y + '%;',
+      toggleTheme: () => this.setState({ dark: !dark }),
+      onMove: (e) => {
+        if (Math.abs(e.clientX - this.state.cx) + Math.abs(e.clientY - this.state.cy) < 6) return;
+        this.setState({ cx: e.clientX, cy: e.clientY });
+      },
+      onLens: (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ hover: true, mx: ((e.clientX - r.left) / r.width) * 100, my: ((e.clientY - r.top) / r.height) * 100 });
+      },
+      offLens: () => this.setState({ hover: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
