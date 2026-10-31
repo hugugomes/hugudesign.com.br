@@ -1,4 +1,5 @@
-# CI mínima da base (issue #1). A issue #4 expande com lint, testes, e2e e cobertura.
+# CI. A #2 adicionou qualidade (Biome, commitlint, dependency-cruiser, Knip).
+# A #4 expande com testes, e2e e cobertura.
 name: CI
 
 on:
@@ -14,36 +15,60 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref || github.ref }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
 
-      # Sem package-lock.json ainda: instala e gera o lockfile.
-      # Num PR, o lockfile novo volta para a própria branch num commit automático.
+      # Num PR, `npm install` atualiza o package-lock.json quando o package.json muda
+      # e o lockfile volta para a branch num commit automático (o ambiente do Claude não
+      # acessa o npm). Na main, `npm ci` exige o lockfile em dia.
       - name: Install
         run: |
-          if [ -f package-lock.json ]; then npm ci; else npm install --no-audit --no-fund; fi
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npm install --no-audit --no-fund
+          else
+            npm ci
+          fi
 
-      - name: Commit lockfile (PR)
+      # Correções seguras de formatação/imports do Biome também voltam para a branch.
+      - name: Autofix Biome (PR)
+        if: github.event_name == 'pull_request'
+        run: npx biome check --write . || true
+
+      - name: Commit lockfile e autofix (PR)
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
-          if [ -n "$(git status --porcelain package-lock.json)" ]; then
+          if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "chore: gera package-lock.json"
+            git add -A
+            git commit -m "chore: atualiza lockfile e formatação automática"
             git push
           fi
 
+      - name: Commitlint (commits do PR)
+        if: github.event_name == 'pull_request'
+        run: npx --no -- commitlint --from ${{ github.event.pull_request.base.sha }} --to HEAD --verbose
+
+      - name: Lint (Biome)
+        run: npm run lint
+
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Arquitetura (dependency-cruiser)
+        run: npm run arch
+
+      - name: Código morto (Knip)
+        run: npm run knip
 
       - name: Build
         run: npm run build
