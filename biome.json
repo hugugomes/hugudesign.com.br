@@ -7,14 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!**/docs",
-      "!**/.agents",
-      "!**/dist",
-      "!**/.astro",
-      "!**/package-lock.json"
-    ]
+    "includes": ["**", "!**/docs", "!**/.agents", "!**/dist", "!**/.astro", "!**/package-lock.json"]
   },
   "formatter": {
     "enabled": true,
@@ -42,9 +35,7 @@
   },
   "overrides": [
     {
-      "includes": [
-        "**/*.astro"
-      ],
+      "includes": ["**/*.astro"],
       "linter": {
         "rules": {
           "correctness": {
