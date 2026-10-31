@@ -38,14 +38,19 @@ jobs:
             npm ci
           fi
 
-      - name: Commit lockfile (PR)
+      # Correções seguras de formatação/imports do Biome também voltam para a branch.
+      - name: Autofix Biome (PR)
+        if: github.event_name == 'pull_request'
+        run: npx biome check --write . || true
+
+      - name: Commit lockfile e autofix (PR)
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
-          if [ -n "$(git status --porcelain package-lock.json)" ]; then
+          if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package-lock.json
-            git commit -m "chore: atualiza package-lock.json"
+            git add -A
+            git commit -m "chore: atualiza lockfile e formatação automática"
             git push
           fi
 
