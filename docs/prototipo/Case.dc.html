@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Case — Sítio Vai e Volta</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}
+a:hover{opacity:.8}
+</style>
+</helmet>
+<div style="background: {{c.bg}}; color: {{c.ink}}; font-family: 'Archivo', system-ui, sans-serif; min-height: 100vh;">
+  <header style="position: sticky; top: 0; z-index: 10; background: {{c.navBg}}; backdrop-filter: blur(12px); border-bottom: 1px solid {{c.line}};">
+    <nav style="max-width: 1320px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px;" aria-label="Case">
+      <a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; text-decoration: none; font-weight: 600;">← Todos os trabalhos</a>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span style="font-size: 13px; color: {{c.muted}}; letter-spacing: .1em;">PT · EN · ES</span>
+        <button type="button" onClick="{{toggleTheme}}" aria-label="Alternar modo claro e escuro" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; cursor: pointer;">◐</button>
+      </div>
+    </nav>
+  </header>
+
+  <section style="padding: 72px 24px 48px;">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px;">
+      <p style="margin: 0; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: {{c.muted}}; font-weight: 600;">Case · Identidade & catálogo</p>
+      <h1 style="margin: 0; font-stretch: 72%; font-weight: 900; font-size: clamp(64px, 11vw, 168px); line-height: .86; letter-spacing: -.02em;">Sítio Vai e Volta</h1>
+      <p style="margin: 0; font-family: 'Instrument Serif', serif; font-style: italic; font-size: clamp(26px, 3vw, 40px); line-height: 1.15; max-width: 900px; color: {{c.accent}};">Visual à altura do sabor.</p>
+      <dl style="margin: 16px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; border-top: 1px solid {{c.line}}; padding-top: 24px;">
+        <div><dt style="font-size: 13px; color: {{c.muted}}; letter-spacing: .1em; text-transform: uppercase;">Cliente</dt><dd style="margin: 6px 0 0; font-size: 17px;">Sítio Vai e Volta · Café Rodolphi</dd></div>
+        <div><dt style="font-size: 13px; color: {{c.muted}}; letter-spacing: .1em; text-transform: uppercase;">Ano</dt><dd style="margin: 6px 0 0; font-size: 17px;">2026</dd></div>
+        <div><dt style="font-size: 13px; color: {{c.muted}}; letter-spacing: .1em; text-transform: uppercase;">Escopo</dt><dd style="margin: 6px 0 0; font-size: 17px;">Estruturação visual · Catálogos institucionais</dd></div>
+        <div><dt style="font-size: 13px; color: {{c.muted}}; letter-spacing: .1em; text-transform: uppercase;">Crédito</dt><dd style="margin: 6px 0 0; font-size: 17px;">[parceria/agência, se houver]</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <div style="padding: 0 24px;">
+    <div style="max-width: 1320px; margin: 0 auto; border-radius: 6px; overflow: hidden; aspect-ratio: 16 / 9;">
+      <img src="/_blob/f7d86a769aab1d0ce84dadf80595893a" alt="Capa do projeto Sítio Vai e Volta" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+    </div>
+  </div>
+
+  <section style="padding: 120px 24px;">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px;">
+      <h2 style="margin: 0; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -.02em;">O desafio</h2>
+      <div style="display: flex; flex-direction: column; gap: 18px; font-size: 19px; line-height: 1.65; color: {{c.muted}};">
+        <p style="margin: 0;">Durante o desenvolvimento dos materiais solicitados, identifiquei a necessidade de estruturar de forma mais clara a identidade visual do Sítio Vai e Volta.</p>
+        <p style="margin: 0;">Organizei os principais elementos da marca em um sistema visual mais definido, criando uma base sólida para aplicações coerentes, sem alterar a essência da marca, e sim valorizando o que já tinha sido construído.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="padding: 0 24px;">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+      <div style="border-radius: 6px; overflow: hidden; aspect-ratio: 16 / 10;"><img src="/_blob/4f002ea6dad5e405a3eed73bd7a8dd35" alt="Catálogo impresso em uso" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+      <div style="border-radius: 6px; overflow: hidden; aspect-ratio: 16 / 10;"><img src="/_blob/4d88d52b933487fe2e51d75b9cbed7d4" alt="Embalagens e catálogo do Sítio Vai e Volta" style="width: 100%; height: 100%; object-fit: cover; display: block;"></div>
+    </div>
+  </div>
+
+  <section style="padding: 120px 24px;">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px;">
+        <h2 style="margin: 0; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -.02em;">Paleta</h2>
+        <p style="margin: 0; font-size: 19px; line-height: 1.65; color: {{c.muted}};">Aplicação cromática conduzida com respeito à paleta oficial, reforçando autoridade, reconhecimento e consistência em todos os desdobramentos.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;">
+        <sc-for list="{{swatches}}" as="s" hint-placeholder-count="5">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="aspect-ratio: 1 / 1.2; border-radius: 6px; background: {{s.hex}}; border: 1px solid {{c.line}};"></div>
+            <span style="font-size: 14px; font-family: ui-monospace, monospace; color: {{c.muted}};">{{s.hex}}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px; border-top: 1px solid {{c.line}}; padding-top: 48px;">
+        <h2 style="margin: 0; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.05; letter-spacing: -.02em;">Tipografia</h2>
+        <div style="display: flex; flex-direction: column; gap: 18px; font-size: 18px; line-height: 1.6; color: {{c.muted}};">
+          <p style="margin: 0;"><strong style="color: {{c.ink}};">Dupincel</strong> nos destaques, a fonte que mais se aproxima da escrita original do logotipo.</p>
+          <p style="margin: 0;"><strong style="color: {{c.ink}};">Gambetta</strong> como apoio institucional: a principal evolução do projeto, trazendo estrutura e sofisticação.</p>
+          <p style="margin: 0;"><strong style="color: {{c.ink}};">Dancing Script</strong> em pequenos detalhes, reforçando o caráter acolhedor e artesanal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="padding: 0 24px;">
+    <div style="max-width: 1320px; margin: 0 auto; border-radius: 6px; overflow: hidden; aspect-ratio: 16 / 9;">
+      <img src="/_blob/c7b1a621a27039356f41c6b96546bb53" alt="Página de contexto do catálogo com o logotipo" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+    </div>
+  </div>
+
+  <section style="padding: 120px 24px 80px;">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-top: 1px solid {{c.line}}; padding-top: 40px;">
+      <span style="font-size: 15px; color: {{c.muted}};">Próximo case</span>
+      <a href="Main.dc.html" style="font-stretch: 75%; font-weight: 800; font-size: clamp(36px, 5vw, 72px); letter-spacing: -.02em; text-decoration: none;">Vendas para Oftalmo →</a>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3900}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { dark: false }; }
+  renderVals() {
+    const dark = this.state.dark;
+    const c = dark ? {
+      bg: '#0A0F17', navBg: 'rgba(10,15,23,.78)', ink: '#EEF1F5', muted: '#A6B1C0', line: 'rgba(238,241,245,.14)', accent: '#E7C66E'
+    } : {
+      bg: '#F3F1EC', navBg: 'rgba(243,241,236,.82)', ink: '#0D1724', muted: '#4F5B6B', line: 'rgba(13,23,36,.14)', accent: '#822127'
+    };
+    return {
+      c,
+      swatches: ['#822127', '#E7C66E', '#E0CFC0', '#F7F6F5', '#1D1D1B'].map((hex) => ({ hex })),
+      toggleTheme: () => this.setState({ dark: !dark })
+    };
+  }
+}
+</script>
+</body>
+</html>

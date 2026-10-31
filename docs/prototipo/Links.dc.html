@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Hugu Gomes — Links</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit}
+a:hover{opacity:.92}
+@keyframes lkUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.lk{animation:lkUp .8s cubic-bezier(.2,.8,.2,1) both}
+.lk2{animation-delay:.12s}.lk3{animation-delay:.24s}.lk4{animation-delay:.36s}
+@media (prefers-reduced-motion: reduce){.lk{animation:none}}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 1900px; box-sizing: border-box; background: #0B0B0C; color: #EFE6D8; font-family: 'Archivo', system-ui, sans-serif; position: relative; overflow: hidden;">
+
+  <!-- full-bleed portrait -->
+  <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 560px; overflow: hidden;">
+    <img src="/_blob/b0e60d38a640a78f890a589c7015fd5d" alt="" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 470px; height: auto;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,11,12,.15) 0%, rgba(11,11,12,0) 30%, rgba(11,11,12,.55) 70%, #0B0B0C 100%);"></div>
+  </div>
+
+  <div style="position: relative; padding: 16px 18px 40px; display: flex; flex-direction: column; gap: 18px;">
+    <div style="display: flex; justify-content: flex-end;">
+      <div role="group" aria-label="Idioma" style="display: flex; padding: 3px; border-radius: 999px; background: rgba(11,11,12,.55); backdrop-filter: blur(8px); border: 1px solid rgba(239,230,216,.18);">
+        <sc-for list="{{langs}}" as="l" hint-placeholder-count="3">
+          <button type="button" onClick="{{l.pick}}" aria-pressed="{{l.on}}" style="min-width: 44px; height: 36px; border: 0; border-radius: 999px; font: 600 12px/1 'Archivo', sans-serif; letter-spacing: .08em; cursor: pointer; background: {{l.bg}}; color: {{l.fg}};">{{l.code}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div class="lk" style="margin-top: 300px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+      <h1 style="margin: 0; font-family: 'Instrument Serif', serif; font-weight: 400; font-size: 54px; line-height: .95; color: #FFFFFF;">Hugu Gomes</h1>
+      <p style="margin: 0; font-size: 15px; font-weight: 600; color: #FFFFFF;">{{t.tagline}}</p>
+      <div style="display: flex; gap: 10px; margin-top: 6px;">
+        <sc-for list="{{social}}" as="s" hint-placeholder-count="5">
+          <a href="{{s.href}}" aria-label="{{s.name}}" style="width: 44px; height: 44px; border-radius: 999px; background: rgba(239,230,216,.14); border: 1px solid rgba(239,230,216,.22); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-decoration: none; color: #EFE6D8;">{{s.short}}</a>
+        </sc-for>
+      </div>
+    </div>
+
+    <a class="lk lk2" href="https://wa.me/5511980737232" style="align-self: center; height: 52px; padding: 0 28px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; background: #EFE6D8; color: #14130F; text-decoration: none; font-weight: 700; font-size: 16px;">{{t.cta}} <span aria-hidden="true">→</span></a>
+
+    <!-- product cards (Stan-style) -->
+    <sc-for list="{{cards}}" as="k" hint-placeholder-count="3">
+      <div class="lk lk3" style="background: #F4EFE6; color: #14130F; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <div style="width: 72px; height: 72px; flex-shrink: 0; border-radius: 10px; overflow: hidden; background: {{k.thumbBg}}; display: flex; align-items: center; justify-content: center;">
+            <sc-if value="{{k.hasImg}}" hint-placeholder-val="{{ true }}"><img src="{{k.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover;"></sc-if>
+            <sc-if value="{{k.noImg}}" hint-placeholder-val="{{ false }}"><span style="font-family: 'Instrument Serif', serif; font-size: 26px; color: #EFE6D8;">{{k.mark}}</span></sc-if>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 3px; min-width: 0;">
+            <strong style="font-size: 16px;">{{k.title}}</strong>
+            <span style="font-size: 13px; line-height: 1.35; color: #55524A;">{{k.sub}}</span>
+            <span style="font-size: 14px; font-weight: 700; color: {{k.priceColor}};">{{k.price}}</span>
+          </div>
+        </div>
+        <a href="{{k.href}}" style="min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 10px; background: #0B4F8A; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 15px;">{{k.btn}} <span aria-hidden="true">→</span></a>
+      </div>
+    </sc-for>
+
+    <!-- Central de material (Felipe Tâmbara-style) -->
+    <div class="lk lk4" style="margin-top: 22px; padding-top: 28px; border-top: 1px solid rgba(239,230,216,.14); display: flex; flex-direction: column; gap: 14px; text-align: center;">
+      <span style="font-size: 11px; letter-spacing: .2em; color: #D9764A; font-weight: 700;">✦ HUGU GOMES · @HUGUDESIGN</span>
+      <h2 style="margin: 0; font-family: 'Instrument Serif', serif; font-weight: 400; font-style: italic; font-size: 40px; line-height: 1; text-transform: uppercase; color: #EFE6D8;">{{t.centralA}} <span style="color: #D9764A;">{{t.centralB}}</span></h2>
+      <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #B9B0A2;">{{t.centralSub}}</p>
+      <div aria-hidden="true" style="width: 64px; height: 3px; background: #D9764A; margin: 2px auto 6px;"></div>
+    </div>
+    <sc-for list="{{materials}}" as="m" hint-placeholder-count="2">
+      <a href="{{m.href}}" style="display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: #EFE6D8;">
+        <div style="position: relative; aspect-ratio: 16 / 10; border-radius: 6px; overflow: hidden; background: #1C1B18; border: 1px solid rgba(239,230,216,.12); display: flex; align-items: center; justify-content: center;">
+          <span style="font-family: 'Instrument Serif', serif; font-size: 64px; color: {{m.markColor}};">{{m.mark}}</span>
+          <span style="position: absolute; left: 14px; bottom: 12px; font-size: 13px; font-weight: 800; letter-spacing: .06em; color: #D9764A;">{{m.cta}} →</span>
+        </div>
+        <strong style="font-family: 'Instrument Serif', serif; font-weight: 400; font-style: italic; font-size: 22px; line-height: 1.15;">{{m.title}}</strong>
+        <span style="font-size: 14px; line-height: 1.45; color: #B9B0A2;">{{m.text}}</span>
+      </a>
+    </sc-for>
+
+    <!-- media -->
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 10px;">
+      <sc-for list="{{media}}" as="x" hint-placeholder-count="2">
+        <a href="{{x.href}}" style="display: flex; flex-direction: column; gap: 6px; padding: 16px; border-radius: 14px; background: #161614; border: 1px solid rgba(239,230,216,.12); text-decoration: none; min-height: 116px;">
+          <span style="font-size: 11px; letter-spacing: .14em; font-weight: 700; color: #D9764A;">{{x.badge}}</span>
+          <strong style="font-size: 16px;">{{x.name}}</strong>
+          <span style="font-size: 13px; line-height: 1.35; color: #B9B0A2;">{{x.text}}</span>
+        </a>
+      </sc-for>
+    </div>
+
+    <p style="margin: 18px 0 0; text-align: center; font-size: 12px; color: #8E877C;">hugudesign.com.br · Guarulhos · Foz do Iguaçu</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { lang: 'pt' }; }
+  renderVals() {
+    const L = this.state.lang;
+    const T = {
+      pt: { tagline: 'Designer de marcas · PT · EN · ES', cta: 'Solicitar orçamento', centralA: 'Central de', centralB: 'material', centralSub: 'Tudo que eu entrego nos meus conteúdos, num lugar só.', free: 'GRÁTIS', soon: 'EM BREVE', get: 'RESGATAR MATERIAL',
+        cards: [['Portfólio completo', 'Identidades, carrosséis e congressos.', 'Ver portfólio'], ['Currículo', 'Experiência, formação e ferramentas.', 'Ver currículo'], ['Behance', 'Projetos completos, lâmina a lâmina.', 'Abrir Behance']],
+        mats: [['A Bíblia em 1 ano: o planner de leitura no Notion', 'Um plano diário para ler a Bíblia inteira em 365 dias, com marcação de progresso.'], ['[Próximo material]', 'Espaço para o próximo conteúdo gratuito que você publicar.']],
+        media: [['YouTube', 'Reflexões, vlogs e cobertura de eventos.'], ['Spotify', 'Músicas e composições autorais.']] },
+      en: { tagline: 'Brand designer · EN · PT · ES', cta: 'Request a quote', centralA: 'Resource', centralB: 'hub', centralSub: 'Everything I share in my content, in one place.', free: 'FREE', soon: 'SOON', get: 'GET THE RESOURCE',
+        cards: [['Full portfolio', 'Identities, carousels and congresses.', 'See portfolio'], ['Résumé', 'Experience, education and tools.', 'View résumé'], ['Behance', 'Full projects, slide by slide.', 'Open Behance']],
+        mats: [['The Bible in 1 year: a Notion reading planner', 'A daily plan to read the whole Bible in 365 days, with progress tracking (in Portuguese).'], ['[Next resource]', 'Room for the next free resource you publish.']],
+        media: [['YouTube', 'Reflections, vlogs and event coverage.'], ['Spotify', 'Original songs and compositions.']] },
+      es: { tagline: 'Diseñador de marcas · ES · PT · EN', cta: 'Solicitar presupuesto', centralA: 'Central de', centralB: 'material', centralSub: 'Todo lo que comparto en mis contenidos, en un solo lugar.', free: 'GRATIS', soon: 'PRONTO', get: 'OBTENER MATERIAL',
+        cards: [['Portafolio completo', 'Identidades, carruseles y congresos.', 'Ver portafolio'], ['Currículum', 'Experiencia, formación y herramientas.', 'Ver currículum'], ['Behance', 'Proyectos completos, lámina a lámina.', 'Abrir Behance']],
+        mats: [['La Biblia en 1 año: planner de lectura en Notion', 'Un plan diario para leer toda la Biblia en 365 días, con seguimiento (en portugués).'], ['[Próximo material]', 'Espacio para el próximo contenido gratuito que publiques.']],
+        media: [['YouTube', 'Reflexiones, vlogs y cobertura de eventos.'], ['Spotify', 'Canciones y composiciones propias.']] }
+    };
+    const t = T[L];
+    const thumbs = [
+      { img: '/_blob/f7d86a769aab1d0ce84dadf80595893a', mark: '', bg: '#14130F', href: 'Main.dc.html' },
+      { img: '', mark: 'CV', bg: '#0B4F8A', href: 'CV.dc.html' },
+      { img: '', mark: 'Bē', bg: '#14130F', href: '#behance' }
+    ];
+    return {
+      t,
+      langs: ['pt', 'en', 'es'].map((code) => ({ code: code.toUpperCase(), on: code === L ? 'true' : 'false', bg: code === L ? '#EFE6D8' : 'transparent', fg: code === L ? '#14130F' : '#EFE6D8', pick: () => this.setState({ lang: code }) })),
+      social: [['Instagram', 'IG'], ['LinkedIn', 'in'], ['YouTube', 'YT'], ['GitHub', 'GH'], ['E-mail', '@']].map((s) => ({ name: s[0], short: s[1], href: '#' + s[0].toLowerCase() })),
+      cards: t.cards.map((k, i) => ({ title: k[0], sub: k[1], btn: k[2], price: '', priceColor: '#0B4F8A', img: thumbs[i].img, hasImg: !!thumbs[i].img, noImg: !thumbs[i].img, mark: thumbs[i].mark, thumbBg: thumbs[i].bg, href: thumbs[i].href })),
+      materials: t.mats.map((m, i) => ({ title: m[0], text: m[1], cta: i === 0 ? t.get + ' · ' + t.free : t.soon, mark: i === 0 ? '365' : '✦', markColor: i === 0 ? '#EFE6D8' : '#5A564E', href: i === 0 ? '#planner' : '#em-breve' })),
+      media: t.media.map((x) => ({ name: x[0], text: x[1], badge: t.soon, href: '#' + x[0].toLowerCase() }))
+    };
+  }
+}
+</script>
+</body>
+</html>
