@@ -1,0 +1,538 @@
+---
+import { Image } from "astro:assets";
+import hugu from "../assets/hugu-recorte.webp";
+import thumb from "../assets/thumb-portfolio.webp";
+import { LINKS } from "../config/links";
+import { HTML_LANG, type Lang, linksText } from "../i18n/ui";
+import Base from "../layouts/Base.astro";
+import { alternates, hrefFor, withLinks } from "../lib/i18n";
+import "../styles/motion.css";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = linksText[lang];
+
+const social = withLinks([
+  { name: "Instagram", short: "IG", href: hrefFor("instagram", LINKS.instagram) },
+  { name: "Behance", short: "Bē", href: hrefFor("behance", LINKS.behance) },
+  { name: "LinkedIn", short: "in", href: hrefFor("linkedin", LINKS.linkedin) },
+  { name: "YouTube", short: "YT", href: hrefFor("youtube", LINKS.youtube) },
+  { name: "GitHub", short: "GH", href: hrefFor("github", LINKS.github) },
+  { name: "E-mail", short: "@", href: hrefFor("email", LINKS.email) },
+]);
+
+const cards = withLinks([
+  {
+    key: "portfolio",
+    title: t.portfolio[0],
+    sub: t.portfolio[1],
+    btn: t.portfolio[2],
+    href: LINKS.portfolio,
+    mark: "",
+  },
+  {
+    key: "behance",
+    title: t.behance[0],
+    sub: t.behance[1],
+    btn: t.behance[2],
+    href: LINKS.behance,
+    mark: "Bē",
+  },
+]);
+
+const media: { name: string; text: string; href: string }[] = [
+  { name: "YouTube", text: t.youtube, href: LINKS.youtube },
+  { name: "Spotify", text: t.spotify, href: LINKS.spotify },
+];
+
+const langs = alternates("links");
+---
+
+<Base title={t.title} description={t.description} lang={HTML_LANG[lang]} alternates={langs}>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+  </Fragment>
+
+  <div class="page">
+    <div class="photo skeleton" aria-hidden="true" data-skeleton>
+      <Image
+        src={hugu}
+        alt=""
+        widths={[480, 720, 1100]}
+        sizes="(max-width: 560px) 120vw, 640px"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <div class="fade"></div>
+    </div>
+
+    <main class="content">
+      <nav class="langs" aria-label={t.langLabel}>
+        {
+          langs.map((l) => (
+            <a
+              href={l.href}
+              hreflang={HTML_LANG[l.lang]}
+              aria-current={l.lang === lang ? "page" : undefined}
+            >
+              {l.lang.toUpperCase()}
+            </a>
+          ))
+        }
+      </nav>
+
+      <header class="hero enter" style="--i: 0">
+        <h1>Hugu Gomes</h1>
+        <p class="tagline">{t.tagline}</p>
+        {
+          social.length > 0 && (
+            <ul class="social" aria-label={t.socialLabel}>
+              {social.map((s) => (
+                <li>
+                  <a href={s.href} aria-label={s.name} rel="me noopener" target="_blank">
+                    {s.short}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </header>
+
+      <a class="cta enter" style="--i: 1" href={LINKS.whatsapp} rel="noopener" target="_blank">
+        {t.cta} <span aria-hidden="true">→</span>
+      </a>
+
+      {
+        cards.map((k, i) => (
+          <article class="card enter" style={`--i: ${i + 2}`}>
+            <div class="card-row">
+              <div class="thumb">
+                {k.key === "portfolio" ? (
+                  <Image src={thumb} alt="" width={144} height={144} loading="lazy" decoding="async" />
+                ) : (
+                  <span>{k.mark}</span>
+                )}
+              </div>
+              <div class="card-text">
+                <h2>{k.title}</h2>
+                <p>{k.sub}</p>
+              </div>
+            </div>
+            <a class="card-btn" href={k.href} rel="noopener" target="_blank">
+              {k.btn} <span aria-hidden="true">→</span>
+            </a>
+          </article>
+        ))
+      }
+
+      <section class="central enter" style="--i: 4" aria-labelledby="central-title">
+        <span class="kicker">✦ HUGU GOMES · @HUGUDESIGN</span>
+        <h2 id="central-title">
+          {t.centralA} <span>{t.centralB}</span>
+        </h2>
+        <p>{t.centralSub}</p>
+        <div class="rule" aria-hidden="true"></div>
+
+        {
+          LINKS.planner ? (
+            <a class="material" href={LINKS.planner} rel="noopener" target="_blank">
+              <div class="material-cover" aria-hidden="true">
+                <span class="mark">365</span>
+                <span class="material-cta">{t.get} →</span>
+              </div>
+              <strong>{t.planner[0]}</strong>
+              <span class="material-text">{t.planner[1]}</span>
+            </a>
+          ) : (
+            <div class="material is-soon">
+              <div class="material-cover" aria-hidden="true">
+                <span class="mark">365</span>
+                <span class="material-cta">{t.soon}</span>
+              </div>
+              <strong>{t.planner[0]}</strong>
+              <span class="material-text">{t.planner[1]}</span>
+            </div>
+          )
+        }
+      </section>
+
+      <ul class="media enter" style="--i: 5">
+        {
+          media.map((m) => (
+            <li>
+              {m.href ? (
+                <a class="media-card" href={m.href} rel="noopener" target="_blank">
+                  <span class="badge">{t.open}</span>
+                  <strong>{m.name}</strong>
+                  <span>{m.text}</span>
+                </a>
+              ) : (
+                <div class="media-card is-soon">
+                  <span class="badge">{t.soon}</span>
+                  <strong>{m.name}</strong>
+                  <span>{m.text}</span>
+                </div>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+
+      <footer class="foot">hugudesign.com.br · {t.footer}</footer>
+    </main>
+  </div>
+</Base>
+
+<script>
+  // Tira o skeleton quando a foto termina de carregar (ou já estava em cache).
+  for (const box of document.querySelectorAll<HTMLElement>("[data-skeleton]")) {
+    const img = box.querySelector("img");
+    const done = () => box.classList.add("is-loaded");
+    if (!img || img.complete) done();
+    else {
+      img.addEventListener("load", done, { once: true });
+      img.addEventListener("error", done, { once: true });
+    }
+  }
+</script>
+
+<style>
+  :global(body) {
+    background: #0b0b0c;
+    color: #efe6d8;
+    font-family: "Archivo", system-ui, sans-serif;
+  }
+  .page {
+    position: relative;
+    max-width: 560px;
+    margin: 0 auto;
+    overflow: hidden;
+    min-height: 100dvh;
+  }
+  .photo {
+    --skeleton-base: #141413;
+    position: absolute;
+    inset: 0 0 auto;
+    height: 560px;
+    overflow: hidden;
+  }
+  .photo :global(img) {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 470px;
+    max-width: none;
+    height: auto;
+  }
+  .fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(11 11 12 / 0.15) 0%,
+      rgb(11 11 12 / 0) 30%,
+      rgb(11 11 12 / 0.55) 70%,
+      #0b0b0c 100%
+    );
+  }
+  .content {
+    position: relative;
+    padding: 16px 18px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .langs {
+    align-self: flex-end;
+    display: flex;
+    padding: 3px;
+    border-radius: 999px;
+    background: rgb(11 11 12 / 0.55);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgb(239 230 216 / 0.18);
+  }
+  .langs a {
+    min-width: 44px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font: 600 12px/1 "Archivo", sans-serif;
+    letter-spacing: 0.08em;
+    color: #efe6d8;
+    text-decoration: none;
+  }
+  .langs a[aria-current="page"] {
+    background: #efe6d8;
+    color: #14130f;
+  }
+  .hero {
+    margin-top: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  h1 {
+    margin: 0;
+    font-family: "Instrument Serif", serif;
+    font-weight: 400;
+    font-size: 54px;
+    line-height: 0.95;
+    color: #fff;
+  }
+  .tagline {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .social {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .social a {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgb(239 230 216 / 0.14);
+    border: 1px solid rgb(239 230 216 / 0.22);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #efe6d8;
+    text-decoration: none;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .social a:active,
+  .cta:active,
+  .card-btn:active {
+    transform: scale(0.97);
+  }
+  .cta {
+    align-self: center;
+    min-height: 52px;
+    padding: 0 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 999px;
+    background: #efe6d8;
+    color: #14130f;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .card {
+    background: #f4efe6;
+    color: #14130f;
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .thumb {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #14130f;
+    display: grid;
+    place-items: center;
+    font-family: "Instrument Serif", serif;
+    font-size: 26px;
+    color: #efe6d8;
+  }
+  .thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card-text h2 {
+    margin: 0;
+    font-size: 16px;
+  }
+  .card-text p {
+    margin: 3px 0 0;
+    font-size: 13px;
+    line-height: 1.35;
+    color: #4f4c45;
+  }
+  .card-btn {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 10px;
+    background: #0b4f8a;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .central {
+    margin-top: 22px;
+    padding-top: 28px;
+    border-top: 1px solid rgb(239 230 216 / 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: #e08a5e;
+    font-weight: 700;
+  }
+  .central h2 {
+    margin: 0;
+    font-family: "Instrument Serif", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 40px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .central h2 span {
+    color: #e08a5e;
+  }
+  .central > p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #bdb4a6;
+  }
+  .rule {
+    width: 64px;
+    height: 3px;
+    background: #e08a5e;
+    margin: 2px auto 6px;
+  }
+  .material {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    color: #efe6d8;
+    text-decoration: none;
+  }
+  .material-cover {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1c1b18;
+    border: 1px solid rgb(239 230 216 / 0.12);
+    display: grid;
+    place-items: center;
+  }
+  .mark {
+    font-family: "Instrument Serif", serif;
+    font-size: 64px;
+  }
+  .material-cta {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #e08a5e;
+    text-transform: uppercase;
+  }
+  .material strong {
+    font-family: "Instrument Serif", serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.15;
+  }
+  .material-text {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #bdb4a6;
+  }
+  .media {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .media-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+    border-radius: 14px;
+    background: #161614;
+    border: 1px solid rgb(239 230 216 / 0.12);
+    color: #efe6d8;
+    text-decoration: none;
+    min-height: 116px;
+  }
+  .media-card span:last-child {
+    font-size: 13px;
+    line-height: 1.35;
+    color: #bdb4a6;
+  }
+  .badge {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    color: #e08a5e;
+    text-transform: uppercase;
+  }
+  .foot {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 12px;
+    color: #9a9387;
+  }
+  @media (hover: hover) {
+    .social a:hover,
+    .card-btn:hover,
+    .cta:hover {
+      opacity: 0.92;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .social a,
+    .cta,
+    .card-btn {
+      transition: none;
+    }
+  }
+</style>
