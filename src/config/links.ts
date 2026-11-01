@@ -4,13 +4,13 @@
  */
 export const LINKS = {
   whatsapp: "https://wa.me/5511980737232",
-  email: "",
-  instagram: "",
-  behance: "",
-  linkedin: "",
+  email: "contato@hugudesign.com.br",
+  instagram: "https://www.instagram.com/hugugomes/",
+  behance: "https://www.behance.net/hugugomes",
+  linkedin: "https://www.linkedin.com/in/hugugomes/",
   github: "https://github.com/hugugomes",
-  youtube: "",
-  spotify: "",
-  planner: "",
+  youtube: "https://www.youtube.com/@hugugomes",
+  spotify: "https://open.spotify.com/user/22fftxqibhij3y7m5fhbz5zva",
+  planner: "https://hugugomes.notion.site/Estudo-B-blico-29de0240e5e340038603dc7706f00e0a",
   portfolio: "https://hugudesign.com.br/",
 } as const;
