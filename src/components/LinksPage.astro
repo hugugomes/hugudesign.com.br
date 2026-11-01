@@ -254,7 +254,17 @@ const langs = alternates("links");
                   </svg>
                 </span>
                 <span class={`media-icon is-${m.shape}`} aria-hidden="true">
-                  {m.icon}
+                  {m.icon === "play" ? (
+                    <svg viewBox="0 0 24 24" class="glyph">
+                      <path d="M8 5.5v13l11-6.5z" />
+                    </svg>
+                  ) : m.icon === "note" ? (
+                    <svg viewBox="0 0 24 24" class="glyph">
+                      <path d="M10 3.5v11.1a3.5 3.5 0 1 0 2 3.15V8.2l6.5-1.6V3.5L10 5.6z" />
+                    </svg>
+                  ) : (
+                    m.icon
+                  )}
                 </span>
                 <strong>{m.name}</strong>
                 <span class="media-text">{m.text}</span>
@@ -828,6 +838,16 @@ const langs = alternates("links");
     height: 64px;
     background: #04172b;
     font-size: 24px;
+  }
+  .glyph {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+  .is-round .glyph {
+    width: 26px;
+    height: 26px;
+    margin-left: -2px;
   }
   .media-card strong {
     font-size: 15px;
