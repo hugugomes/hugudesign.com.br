@@ -43,9 +43,9 @@ const cards = withLinks([
   },
 ]);
 
-const media: { name: string; text: string; href: string }[] = [
-  { name: "YouTube", text: t.youtube, href: LINKS.youtube },
-  { name: "Spotify", text: t.spotify, href: LINKS.spotify },
+const media: { name: string; sign: string; icon: string; text: string; href: string }[] = [
+  { name: "YouTube", sign: "youtube", icon: "▶", text: t.youtube, href: LINKS.youtube },
+  { name: "Spotify", sign: "spotify", icon: "♪", text: t.spotify, href: LINKS.spotify },
 ];
 
 // Chips decorativos de ferramentas (texto simples, sem logos de marca).
@@ -65,7 +65,7 @@ const langs = alternates("links");
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=Caveat:wght@600&display=swap"
     />
   </Fragment>
 
@@ -220,25 +220,37 @@ const langs = alternates("links");
 
       <ul class="media enter" style="--i: 8">
         {
-          media.map((m) => (
-            <li>
-              {m.href ? (
-                <a class="media-card" href={m.href} rel="noopener" target="_blank">
-                  <strong>{m.name}</strong>
-                  <span>{m.text}</span>
-                  <span class="badge">
-                    {t.open} <span aria-hidden="true">↗</span>
-                  </span>
-                </a>
-              ) : (
-                <div class="media-card is-soon">
-                  <strong>{m.name}</strong>
-                  <span>{m.text}</span>
-                  <span class="badge">{t.soon}</span>
-                </div>
-              )}
-            </li>
-          ))
+          media.map((m) => {
+            const inner = (
+              <>
+                <span class="sign" aria-hidden="true">
+                  {m.sign}
+                  <svg viewBox="0 0 120 12" preserveAspectRatio="none">
+                    <path d="M2 9 C 30 2, 70 2, 118 6" />
+                  </svg>
+                </span>
+                <span class="media-icon" aria-hidden="true">
+                  {m.icon}
+                </span>
+                <strong>{m.name}</strong>
+                <span class="media-text">{m.text}</span>
+              </>
+            );
+            return (
+              <li>
+                {m.href ? (
+                  <a class="media-card" href={m.href} rel="noopener" target="_blank">
+                    {inner}
+                  </a>
+                ) : (
+                  <div class="media-card is-soon">
+                    {inner}
+                    <span class="badge">{t.soon}</span>
+                  </div>
+                )}
+              </li>
+            );
+          })
         }
       </ul>
 
@@ -554,7 +566,8 @@ const langs = alternates("links");
     gap: 8px;
     border-radius: 14px;
     background: var(--blue);
-    border: 1px solid rgb(111 184 255 / 0.4);
+    border: 2px solid var(--sky);
+    box-shadow: 5px 5px 0 var(--sky);
     color: #fff;
     text-decoration: none;
     font-weight: 700;
@@ -562,9 +575,12 @@ const langs = alternates("links");
     transition: transform var(--dur-fast) var(--ease-out);
   }
   .social a:active,
-  .cta:active,
   .card-btn:active {
     transform: scale(0.97);
+  }
+  .cta:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0 var(--sky);
   }
 
   .card {
@@ -714,30 +730,71 @@ const langs = alternates("links");
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
+  /* Botões no estilo "bloco com sombra dura" + assinatura manuscrita. */
   .media-card {
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 16px;
-    border-radius: 14px;
-    background: var(--navy-2);
-    border: 1px solid var(--line);
-    color: var(--ink);
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding: 14px 12px 16px;
+    border-radius: 16px;
+    background: #dcecff;
+    border: 2px solid var(--blue);
+    box-shadow: 5px 5px 0 var(--sky);
+    color: #04172b;
     text-decoration: none;
-    min-height: 116px;
+    min-height: 168px;
+    transition: transform var(--dur-fast) var(--ease-out);
   }
-  .media-card > span:not(.badge) {
-    font-size: 13px;
+  .media-card:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0 var(--sky);
+  }
+  .sign {
+    position: relative;
+    font-family: "Caveat", cursive;
+    font-size: 24px;
+    line-height: 1;
+    color: var(--blue);
+    rotate: -6deg;
+  }
+  .sign svg {
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    bottom: -6px;
+    width: calc(100% + 8px);
+    height: 8px;
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .media-icon {
+    width: 64px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #04172b;
+    color: #fff;
+    font-size: 18px;
+  }
+  .media-card strong {
+    font-size: 15px;
+  }
+  .media-text {
+    font-size: 12.5px;
     line-height: 1.35;
-    color: var(--muted);
+    color: #2a3d52;
   }
   .badge {
-    margin-top: auto;
     font-size: 11px;
     letter-spacing: 0.12em;
     font-weight: 700;
-    color: var(--sky);
+    color: var(--blue);
     text-transform: uppercase;
   }
   .foot {
@@ -756,6 +813,7 @@ const langs = alternates("links");
   @media (prefers-reduced-motion: reduce) {
     .social a,
     .cta,
+    .media-card,
     .card-btn {
       transition: none;
     }
