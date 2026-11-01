@@ -27,6 +27,10 @@ for (const p of PAGES) {
       await expect(page.getByRole("heading", { level: 1 })).toHaveText("Hugu Gomes");
       const cta = page.getByRole("link", { name: new RegExp(p.cta) });
       await expect(cta).toHaveAttribute("href", /wa\.me\/5511980737232/);
+      await expect(page.locator("a.email")).toHaveAttribute(
+        "href",
+        "mailto:contato@hugudesign.com.br",
+      );
     });
 
     test("sem violações de acessibilidade (axe)", async ({ page }) => {

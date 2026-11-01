@@ -21,7 +21,6 @@ const social = withLinks([
   { name: "LinkedIn", short: "in", href: hrefFor("linkedin", LINKS.linkedin) },
   { name: "YouTube", short: "YT", href: hrefFor("youtube", LINKS.youtube) },
   { name: "GitHub", short: "GH", href: hrefFor("github", LINKS.github) },
-  { name: "E-mail", short: "@", href: hrefFor("email", LINKS.email) },
 ]);
 
 const cards = withLinks([
@@ -80,6 +79,7 @@ const tools = [
   { label: "Fig", cls: "t4" },
 ];
 
+const emailHref = hrefFor("email", LINKS.email);
 const langs = alternates("links");
 ---
 
@@ -165,6 +165,11 @@ const langs = alternates("links");
         <p class="kicker">Links</p>
         <h1>Hugu Gomes</h1>
         <p class="tagline">{t.tagline}</p>
+        {emailHref && (
+          <a class="email" href={emailHref}>
+            {LINKS.email}
+          </a>
+        )}
         {
           social.length > 0 && (
             <ul class="social" aria-label={t.socialLabel}>
@@ -291,7 +296,20 @@ const langs = alternates("links");
         }
       </ul>
 
-      <footer class="foot">hugudesign.com.br · {t.footer}</footer>
+      <footer class="foot">
+        <p>
+          hugudesign.com.br
+          {
+            emailHref && (
+              <>
+                {" · "}
+                <a href={emailHref}>{LINKS.email}</a>
+              </>
+            )
+          }
+        </p>
+        <p>{t.footer}</p>
+      </footer>
     </main>
   </div>
 </Base>
@@ -865,6 +883,24 @@ const langs = alternates("links");
     font-weight: 700;
     color: var(--blue);
     text-transform: uppercase;
+  }
+  .email {
+    margin-top: 2px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sky);
+    text-decoration: underline;
+    text-decoration-color: rgb(111 184 255 / 0.4);
+    text-underline-offset: 4px;
+  }
+  .foot p {
+    margin: 0;
+  }
+  .foot p + p {
+    margin-top: 4px;
+  }
+  .foot a {
+    color: var(--sky);
   }
   .foot {
     margin-top: 18px;
