@@ -14,5 +14,3 @@ export const LINKS = {
   planner: "",
   portfolio: "https://hugudesign.com.br/",
 } as const;
-
-export type LinkKey = keyof typeof LINKS;
