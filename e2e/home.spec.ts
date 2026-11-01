@@ -26,7 +26,7 @@ test.describe("home", () => {
   test("não tem links quebrados internos", async ({ page, request }) => {
     await page.goto("/");
     const hrefs = await page
-      .locator('a[href^="/"], link[rel="icon"]')
+      .locator('a[href^="/"], link[rel="icon"][href^="/"]')
       .evaluateAll((els) => els.map((el) => el.getAttribute("href") ?? ""));
     for (const href of new Set(hrefs)) {
       const res = await request.get(href);
