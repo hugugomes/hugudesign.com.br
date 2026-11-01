@@ -1,5 +1,17 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+/** Espera as animações de entrada (finitas) terminarem antes de medir cores. */
+async function settle(page: Page) {
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((a) => a.effect?.getTiming().iterations !== Number.POSITIVE_INFINITY)
+        .map((a) => a.finished),
+    ),
+  );
+}
 
 const PAGES = [
   { path: "/links/", lang: "pt-BR", cta: "Solicitar orçamento" },
@@ -19,6 +31,7 @@ for (const p of PAGES) {
 
     test("sem violações de acessibilidade (axe)", async ({ page }) => {
       await page.goto(p.path);
+      await settle(page);
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
       expect(results.violations).toEqual([]);
     });
@@ -27,9 +40,9 @@ for (const p of PAGES) {
 
 test("seletor de idioma leva para a mesma página", async ({ page }) => {
   await page.goto("/links/");
-  await page.getByRole("link", { name: "EN" }).click();
+  await page.getByRole("link", { name: "EN", exact: true }).click();
   await expect(page).toHaveURL(/\/en\/links\/$/);
-  await expect(page.getByRole("link", { name: "PT" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "PT", exact: true })).toBeVisible();
 });
 
 test("hreflang aponta para os três idiomas", async ({ page }) => {
