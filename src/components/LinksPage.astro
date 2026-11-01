@@ -33,19 +33,29 @@ const cards = withLinks([
     href: LINKS.portfolio,
     mark: "",
   },
-  {
-    key: "behance",
-    title: t.behance[0],
-    sub: t.behance[1],
-    btn: t.behance[2],
-    href: LINKS.behance,
-    mark: "Bē",
-  },
 ]);
 
-const media: { name: string; sign: string; icon: string; text: string; href: string }[] = [
-  { name: "YouTube", sign: "youtube", icon: "▶", text: t.youtube, href: LINKS.youtube },
-  { name: "Spotify", sign: "spotify", icon: "♪", text: t.spotify, href: LINKS.spotify },
+type Media = {
+  name: string;
+  sign: string;
+  icon: string;
+  shape: "round" | "rect";
+  text: string;
+  href: string;
+  wide?: boolean;
+};
+const media: Media[] = [
+  {
+    name: "Behance",
+    sign: "behance",
+    icon: "Bē",
+    shape: "round",
+    text: t.behance[1],
+    href: LINKS.behance,
+    wide: true,
+  },
+  { name: "YouTube", sign: "youtube", icon: "▶", shape: "rect", text: t.youtube, href: LINKS.youtube },
+  { name: "Spotify", sign: "spotify", icon: "♪", shape: "round", text: t.spotify, href: LINKS.spotify },
 ];
 
 // Chips decorativos de ferramentas (texto simples, sem logos de marca).
@@ -229,7 +239,7 @@ const langs = alternates("links");
                     <path d="M2 9 C 30 2, 70 2, 118 6" />
                   </svg>
                 </span>
-                <span class="media-icon" aria-hidden="true">
+                <span class={`media-icon is-${m.shape}`} aria-hidden="true">
                   {m.icon}
                 </span>
                 <strong>{m.name}</strong>
@@ -237,7 +247,7 @@ const langs = alternates("links");
               </>
             );
             return (
-              <li>
+              <li class={m.wide ? "is-wide" : undefined}>
                 {m.href ? (
                   <a class="media-card" href={m.href} rel="noopener" target="_blank">
                     {inner}
@@ -786,6 +796,24 @@ const langs = alternates("links");
     background: #04172b;
     color: #fff;
     font-size: 18px;
+  }
+  .media li.is-wide {
+    grid-column: 1 / -1;
+  }
+  .media-icon.is-round {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: var(--blue);
+    font-family: "Archivo", sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+  }
+  .is-wide .media-icon.is-round {
+    width: 64px;
+    height: 64px;
+    background: #04172b;
+    font-size: 24px;
   }
   .media-card strong {
     font-size: 15px;
