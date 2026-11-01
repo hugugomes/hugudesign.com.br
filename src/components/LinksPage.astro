@@ -65,8 +65,8 @@ const media: Media[] = [
   {
     name: "Spotify",
     sign: "spotify",
-    icon: "♪",
-    shape: "round",
+    icon: "audio",
+    shape: "rect",
     text: t.spotify,
     href: LINKS.spotify,
   },
@@ -258,9 +258,12 @@ const langs = alternates("links");
                     <svg viewBox="0 0 24 24" class="glyph">
                       <path d="M8 5.5v13l11-6.5z" />
                     </svg>
-                  ) : m.icon === "note" ? (
+                  ) : m.icon === "audio" ? (
                     <svg viewBox="0 0 24 24" class="glyph">
-                      <path d="M10 3.5v11.1a3.5 3.5 0 1 0 2 3.15V8.2l6.5-1.6V3.5L10 5.6z" />
+                      <rect x="3" y="9" width="3" height="6" rx="1.5" />
+                      <rect x="8" y="5" width="3" height="14" rx="1.5" />
+                      <rect x="13" y="7" width="3" height="10" rx="1.5" />
+                      <rect x="18" y="10" width="3" height="4" rx="1.5" />
                     </svg>
                   ) : (
                     m.icon
