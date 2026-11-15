@@ -9,6 +9,11 @@ test.describe("home", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
   });
 
+  test("aplica o tema antes da primeira pintura", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", /^(light|dark)$/);
+  });
+
   test("tem URL canônica absoluta", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(

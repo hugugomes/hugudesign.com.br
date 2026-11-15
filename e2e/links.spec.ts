@@ -57,9 +57,13 @@ test("hreflang aponta para os três idiomas", async ({ page }) => {
   expect(hrefs).toEqual(expect.arrayContaining(["pt-BR", "en", "es", "x-default"]));
 });
 
-test("a foto sai do skeleton depois de carregar", async ({ page }) => {
+test("as imagens saem do skeleton depois de carregar", async ({ page }) => {
   await page.goto("/links/");
-  await expect(page.locator("[data-skeleton]")).toHaveClass(/is-loaded/);
+  const boxes = page.locator("[data-skeleton]");
+  await expect(boxes).not.toHaveCount(0);
+  for (const box of await boxes.all()) {
+    await expect(box).toHaveClass(/is-loaded/);
+  }
 });
 
 test("links internos e imagens respondem sem erro", async ({ page, request }) => {

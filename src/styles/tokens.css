@@ -1,0 +1,45 @@
+/*
+ * Design tokens do site (issue #7). Claro por padrão; escuro com data-theme="dark" no <html>.
+ * Os seletores usam :where() para ter especificidade zero: uma página com paleta
+ * própria (como a /links) consegue sobrescrever com um seletor simples.
+ */
+:where(:root) {
+  --bg: #f3f1ec;
+  --fg: #0d1724;
+  --nav-bg: rgb(243 241 236 / 0.82);
+  --muted: #4f5b6b;
+  --line: rgb(13 23 36 / 0.14);
+  --card: #ffffff;
+  --soft: #e8e4db;
+  --accent: #0b4f8a;
+  --accent-ink: #ffffff;
+  --ring: rgb(13 23 36 / 0.45);
+  --logo-bg: transparent;
+  --skeleton-base: #e2ddd2;
+
+  --font-sans: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+
+  --wrap: 1320px;
+  --gutter: 24px;
+  --radius: 6px;
+
+  color-scheme: light;
+}
+
+:where(:root[data-theme="dark"]) {
+  --bg: #0a0f17;
+  --fg: #eef1f5;
+  --nav-bg: rgb(10 15 23 / 0.78);
+  --muted: #a6b1c0;
+  --line: rgb(238 241 245 / 0.14);
+  --card: #111926;
+  --soft: #111926;
+  --accent: #6aaef0;
+  --accent-ink: #06121f;
+  --ring: rgb(238 241 245 / 0.7);
+  --logo-bg: #eef1f5;
+  --skeleton-base: #162132;
+
+  color-scheme: dark;
+}
