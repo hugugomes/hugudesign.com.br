@@ -5,6 +5,7 @@ import thumb from "../assets/thumb-portfolio.webp";
 import { LINKS } from "../config/links";
 import { HTML_LANG, type Lang, linksText } from "../i18n/ui";
 import Base from "../layouts/Base.astro";
+import Img from "./Img.astro";
 import { alternates, hrefFor, withLinks } from "../lib/i18n";
 import "../styles/motion.css";
 
@@ -194,7 +195,7 @@ const langs = alternates("links");
           <article class="card enter" style={`--i: ${i + 5}`}>
             <div class="thumb">
               {k.key === "portfolio" ? (
-                <Image src={thumb} alt="" width={144} height={144} loading="lazy" decoding="async" />
+                <Img src={thumb} alt="" ratio="1 / 1" widths={[144]} sizes="64px" />
               ) : (
                 <span aria-hidden="true">{k.mark}</span>
               )}
@@ -314,18 +315,6 @@ const langs = alternates("links");
   </div>
 </Base>
 
-<script>
-  // Tira o skeleton quando a foto termina de carregar (ou já estava em cache).
-  for (const box of document.querySelectorAll<HTMLElement>("[data-skeleton]")) {
-    const img = box.querySelector("img");
-    const done = () => box.classList.add("is-loaded");
-    if (!img || img.complete) done();
-    else {
-      img.addEventListener("load", done, { once: true });
-      img.addEventListener("error", done, { once: true });
-    }
-  }
-</script>
 
 <style>
   /* Azul característico do Hugu (o mesmo do site atual). */
@@ -349,6 +338,9 @@ const langs = alternates("links");
   :global(html:root) {
     --bg: #000a17;
     --fg: #eef3f9;
+    --accent: #6fb8ff;
+    --skeleton-base: #0a1d33;
+    color-scheme: dark;
   }
   :global(body) {
     background: #000a17;

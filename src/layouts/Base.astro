@@ -1,7 +1,9 @@
 ---
 import favicon from "../assets/favicon.svg?url";
 import { canonicalUrl, pageTitle } from "../lib/seo";
+import "../styles/tokens.css";
 import "../styles/global.css";
+import "../styles/motion.css";
 
 type HtmlLang = "pt-BR" | "en" | "es";
 
@@ -27,6 +29,19 @@ const xDefault = alternates.find((a) => a.lang === "pt");
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="color-scheme" content="light dark" />
+    <!-- Tema antes da primeira pintura: escolha salva ou a preferência do sistema. -->
+    <script is:inline>
+      (() => {
+        let theme = null;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch {}
+        if (theme !== "dark" && theme !== "light") {
+          theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <link rel="canonical" href={canonicalUrl(Astro.url.pathname, site)} />
     {
       alternates.map((a) => (
@@ -39,6 +54,32 @@ const xDefault = alternates.find((a) => a.lang === "pt");
     <slot name="head" />
   </head>
   <body>
+    <div class="nav-progress" aria-hidden="true"></div>
     <slot />
+    <script>
+      // Skeleton: some quando a imagem termina de carregar (ou já estava em cache).
+      for (const box of document.querySelectorAll<HTMLElement>("[data-skeleton]")) {
+        const img = box.querySelector("img");
+        const done = () => box.classList.add("is-loaded");
+        if (!img || img.complete) done();
+        else {
+          img.addEventListener("load", done, { once: true });
+          img.addEventListener("error", done, { once: true });
+        }
+      }
+
+      // Barra de progresso ao sair para outra página do próprio site.
+      const bar = document.querySelector<HTMLElement>(".nav-progress");
+      document.addEventListener("click", (event) => {
+        if (!bar || event.defaultPrevented) return;
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const link = (event.target as Element | null)?.closest<HTMLAnchorElement>("a[href]");
+        if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+        const url = new URL(link.href, location.href);
+        if (url.origin !== location.origin || url.pathname === location.pathname) return;
+        bar.classList.add("is-on");
+      });
+      window.addEventListener("pageshow", () => bar?.classList.remove("is-on"));
+    </script>
   </body>
 </html>
