@@ -1,0 +1,67 @@
+---
+/**
+ * Home nos três idiomas (issue #8). As seções (hero, portfólio, serviços…)
+ * entram nas issues #9–#11; por enquanto mostra só a abertura.
+ */
+import { homeText } from "../i18n/home";
+import { HTML_LANG, type Lang } from "../i18n/ui";
+import Base from "../layouts/Base.astro";
+import { alternates } from "../lib/i18n";
+import SiteNav from "./SiteNav.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = homeText[lang];
+---
+
+<Base title={t.title} description={t.description} lang={HTML_LANG[lang]} alternates={alternates("")}>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+  </Fragment>
+
+  <SiteNav lang={lang} />
+
+  <main id="topo" class="open">
+    <p class="kicker enter" style="--i: 0">{t.kicker}</p>
+    <h1 class="enter" style="--i: 1">Hugu Gomes</h1>
+    <p class="enter" style="--i: 2">{t.soon}</p>
+  </main>
+</Base>
+
+<style>
+  .open {
+    min-height: calc(100dvh - 73px);
+    display: grid;
+    place-content: center;
+    gap: 0.5rem;
+    padding: var(--gutter);
+    text-align: center;
+  }
+  .kicker {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(3rem, 12vw, 9rem);
+    font-stretch: 70%;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  p {
+    margin: 0;
+  }
+</style>
