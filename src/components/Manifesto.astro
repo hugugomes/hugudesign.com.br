@@ -1,0 +1,107 @@
+---
+/**
+ * Manifesto (issue #9) com o desenho de construção do monograma HG.
+ * As linhas se desenham conforme a rolagem, onde o navegador suporta;
+ * sem suporte ou com prefers-reduced-motion, o desenho já aparece pronto.
+ */
+import { homeText } from "../i18n/home";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = homeText[lang];
+---
+
+<section class="manifesto">
+  <div class="grid">
+    <div class="text rv">
+      <p class="label">/ 01 · Manifesto</p>
+      <h2>{t.manifestoA} <em>{t.manifestoB}</em></h2>
+      <p class="body">{t.manifestoP1}</p>
+      <p class="body">{t.manifestoP2}</p>
+    </div>
+    <svg class="draw" viewBox="0 0 400 400" role="img" aria-label={t.drawLabel} fill="none" stroke="currentColor" stroke-width="1">
+      <circle class="ln" pathLength="1" cx="200" cy="200" r="160"></circle>
+      <circle class="ln" pathLength="1" cx="200" cy="200" r="98.9"></circle>
+      <circle class="ln" pathLength="1" cx="139" cy="200" r="61.1"></circle>
+      <circle class="ln" pathLength="1" cx="261" cy="200" r="61.1"></circle>
+      <path class="ln" pathLength="1" d="M40 200H360M200 40V360M87 87L313 313M313 87L87 313"></path>
+      <path class="ln mono" pathLength="1" d="M101 140h66v120h-66zM233 140h66v120h-66zM167 200h66" stroke-width="2.5"></path>
+      <rect class="ln" pathLength="1" x="40" y="40" width="320" height="320"></rect>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .manifesto {
+    padding: 120px var(--gutter);
+  }
+  .grid {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 48px;
+    align-items: center;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .label {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  em {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .body {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .draw {
+    width: 100%;
+    max-width: 460px;
+    justify-self: center;
+    color: var(--accent);
+  }
+  .mono {
+    color: var(--fg);
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .ln {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: draw linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 50%;
+      }
+    }
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

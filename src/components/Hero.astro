@@ -1,0 +1,314 @@
+---
+/**
+ * Hero (issue #9): nome gigante atrás do retrato recortado e uma lente de
+ * retícula que segue o cursor. Sem cursor (celular) ou parado, a lente passeia
+ * devagar; com prefers-reduced-motion ela fica parada.
+ */
+import { Image } from "astro:assets";
+import photo from "../assets/hugu-recorte.webp";
+import halftone from "../assets/hugu-recorte-reticula.webp";
+import { homeText } from "../i18n/home";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = homeText[lang];
+const words = ["HUGU", "GOMES"];
+const widths = [480, 720, 960, 1100];
+const sizes = "(max-width: 720px) 110vw, 760px";
+---
+
+<section id="topo" class="hero">
+  <div class="meta wrap">
+    <span>{t.kicker}</span>
+    <span>{t.place}</span>
+  </div>
+
+  <div class="stage wrap">
+    <h1 aria-label="Hugu Gomes">
+      {
+        words.map((word, w) => (
+          <span class:list={["word", { accent: w === 1 }]} aria-hidden="true">
+            {Array.from(word).map((ch, i) => (
+              <span class="ch" style={`--i: ${w * 4 + i}`}>
+                {ch}
+              </span>
+            ))}
+          </span>
+        ))
+      }
+    </h1>
+
+    <div class="portrait" data-lens>
+      <Image
+        class="base"
+        src={photo}
+        alt={t.photoAlt}
+        widths={widths}
+        sizes={sizes}
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <Image
+        class="dots"
+        src={halftone}
+        alt=""
+        aria-hidden="true"
+        widths={widths}
+        sizes={sizes}
+        loading="eager"
+        decoding="async"
+      />
+      <span class="ring" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="foot wrap">
+    <p class="sub enter" style="--i: 6">{t.heroSub}</p>
+    <div class="actions enter" style="--i: 8">
+      <div class="btns">
+        <a class="btn solid" href="#trabalhos">{t.heroBtn1}</a>
+        <a class="btn line" href="#contato">{t.heroBtn2}</a>
+      </div>
+      <span class="hint">{t.heroHint}</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Lente: posição em % dentro do retrato, gravada em --mx/--my.
+  const box = document.querySelector<HTMLElement>("[data-lens]");
+  if (box) {
+    const still = matchMedia("(prefers-reduced-motion: reduce)");
+    let hover = false;
+    let visible = true;
+    let tick = 0;
+    let frame = 0;
+
+    const set = (x: number, y: number) => {
+      box.style.setProperty("--mx", `${x.toFixed(1)}%`);
+      box.style.setProperty("--my", `${y.toFixed(1)}%`);
+    };
+
+    // Passeio ocioso: só quando ninguém está mexendo, a foto está na tela e o
+    // usuário não pediu menos movimento.
+    const drift = () => {
+      frame = 0;
+      if (hover || !visible || still.matches || document.hidden) return;
+      tick += 0.012;
+      set(50 + 24 * Math.sin(tick), 38 + 20 * Math.sin(tick * 1.37));
+      frame = requestAnimationFrame(drift);
+    };
+    const start = () => {
+      if (!frame) frame = requestAnimationFrame(drift);
+    };
+
+    box.addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      hover = true;
+      const r = box.getBoundingClientRect();
+      set(((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+    });
+    box.addEventListener("pointerleave", () => {
+      hover = false;
+      start();
+    });
+    new IntersectionObserver(([entry]) => {
+      visible = entry?.isIntersecting ?? true;
+      if (visible) start();
+    }).observe(box);
+    document.addEventListener("visibilitychange", start);
+    still.addEventListener("change", start);
+    start();
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 32px var(--gutter) 0;
+    overflow-x: clip;
+  }
+  .wrap {
+    max-width: var(--wrap);
+    margin-inline: auto;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .stage {
+    position: relative;
+    margin-top: 16px;
+    height: clamp(520px, 62vw, 820px);
+    border-bottom: 1px solid var(--line);
+  }
+  h1 {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+    margin: 0;
+    pointer-events: none;
+    text-align: center;
+    font-stretch: 70%;
+    font-weight: 900;
+    font-size: clamp(84px, 17vw, 260px);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+  }
+  .word {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.02em;
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .ch {
+    display: inline-block;
+  }
+
+  .portrait {
+    --mx: 50%;
+    --my: 38%;
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    left: 50%;
+    height: 88%;
+    aspect-ratio: 1100 / 1183;
+    translate: -50% 0;
+    cursor: crosshair;
+  }
+  .portrait :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom;
+  }
+  .portrait :global(.dots) {
+    -webkit-mask-image: radial-gradient(
+      circle var(--lens-r) at var(--mx) var(--my),
+      #000 0 97%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle var(--lens-r) at var(--mx) var(--my),
+      #000 0 97%,
+      transparent 100%
+    );
+  }
+  .ring {
+    position: absolute;
+    left: var(--mx);
+    top: var(--my);
+    width: calc(var(--lens-r) * 2);
+    height: calc(var(--lens-r) * 2);
+    border-radius: 50%;
+    border: 1px solid var(--ring);
+    translate: -50% -50%;
+    pointer-events: none;
+  }
+
+  .foot {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    padding-bottom: 48px;
+  }
+  .sub {
+    margin: 0;
+    max-width: 560px;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.45;
+  }
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    height: 52px;
+    padding: 0 26px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .solid {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  .line {
+    border: 1px solid var(--fg);
+  }
+  .hint {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  @media (hover: none) {
+    .hint {
+      display: none;
+    }
+  }
+
+  /* Entrada (peso Jhey): cada letra sobe de dentro da sua linha; o retrato aparece logo depois. */
+  @media (prefers-reduced-motion: no-preference) {
+    .ch {
+      animation: rise var(--dur-hero) var(--ease-hero) both;
+      animation-delay: calc(var(--i) * var(--stagger-letter));
+    }
+    .portrait {
+      animation: portrait-in var(--dur-hero) var(--ease-hero) 240ms both;
+    }
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes portrait-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+      filter: blur(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+</style>

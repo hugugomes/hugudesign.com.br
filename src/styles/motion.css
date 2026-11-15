@@ -11,6 +11,15 @@
   --enter-y: 8px;
   --enter-blur: 4px;
   --stagger: 70ms;
+
+  /* Hero (peso Jhey): letras sobem uma a uma, dentro do limite de 500ms cada. */
+  --dur-hero: 500ms;
+  --stagger-letter: 40ms;
+  --ease-hero: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Faixa de funções: volta completa lenta, para leitura. */
+  --dur-marquee: 38s;
+  /* Lente da foto: raio da máscara de retícula. */
+  --lens-r: 130px;
 }
 
 /* Entrada: opacidade + translateY + blur, com stagger via --i. */

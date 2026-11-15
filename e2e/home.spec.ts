@@ -1,11 +1,30 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+/**
+ * Espera só as animações de entrada (finitas e no tempo da página). Loops como a
+ * faixa e animações presas à rolagem nunca "terminam", então ficam de fora.
+ */
+async function settle(page: Page) {
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter(
+          (a) =>
+            a.timeline instanceof DocumentTimeline &&
+            a.effect?.getTiming().iterations !== Number.POSITIVE_INFINITY,
+        )
+        .map((a) => a.finished),
+    ),
+  );
+}
 
 test.describe("home", () => {
   test("abre com título, nome e idioma", async ({ page }) => {
     await page.goto("/");
     await expect(page).toHaveTitle(/Hugu Gomes/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Hugu Gomes");
+    await expect(page.getByRole("heading", { level: 1, name: "Hugu Gomes" })).toBeVisible();
     await expect(page.locator("html")).toHaveAttribute("lang", "pt-BR");
   });
 
@@ -24,7 +43,7 @@ test.describe("home", () => {
 
   test("sem violações de acessibilidade (axe)", async ({ page }) => {
     await page.goto("/");
-    await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
+    await settle(page);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     expect(results.violations).toEqual([]);
   });
@@ -58,6 +77,35 @@ test.describe("home", () => {
     expect(hrefs).toEqual(expect.arrayContaining(["pt-BR", "en", "es", "x-default"]));
   });
 
+  test("faixa de funções pausa e volta", async ({ page }, info) => {
+    test.skip(info.project.name === "reduced-motion", "a faixa já fica parada");
+    await page.goto("/");
+    const btn = page.locator("[data-marquee-toggle]");
+    await btn.click();
+    await expect(btn).toHaveAttribute("aria-pressed", "true");
+    await btn.click();
+    await expect(btn).toHaveAttribute("aria-pressed", "false");
+  });
+
+  test("lente da foto acompanha o cursor", async ({ page, isMobile }) => {
+    test.skip(isMobile, "sem cursor no celular");
+    await page.goto("/");
+    const lens = page.locator("[data-lens]");
+    const box = await lens.boundingBox();
+    if (!box) throw new Error("retrato sem tamanho");
+    await page.mouse.move(box.x + box.width * 0.25, box.y + box.height * 0.5);
+    await expect(lens).toHaveAttribute("style", /--mx: 2[45]\.\d%/);
+  });
+
+  test("com menos movimento, a lente não passeia sozinha", async ({ page }, info) => {
+    test.skip(info.project.name !== "reduced-motion", "só no modo reduced-motion");
+    await page.goto("/");
+    const lens = page.locator("[data-lens]");
+    const before = await lens.getAttribute("style");
+    await page.waitForTimeout(600);
+    expect(await lens.getAttribute("style")).toBe(before);
+  });
+
   test("botão de tema alterna e lembra a escolha", async ({ page }) => {
     await page.goto("/");
     const html = page.locator("html");
@@ -73,7 +121,7 @@ test.describe("home", () => {
 for (const path of ["/en/", "/es/"]) {
   test(`sem violações de acessibilidade em ${path} (axe)`, async ({ page }) => {
     await page.goto(path);
-    await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
+    await settle(page);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     expect(results.violations).toEqual([]);
   });
