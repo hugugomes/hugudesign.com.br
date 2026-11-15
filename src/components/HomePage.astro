@@ -1,12 +1,15 @@
 ---
 /**
- * Home nos três idiomas (issue #8). As seções (hero, portfólio, serviços…)
- * entram nas issues #9–#11; por enquanto mostra só a abertura.
+ * Home nos três idiomas (issue #8). Hero, faixa e manifesto: #9.
+ * Portfólio, serviços, sobre e contato entram nas issues #10–#11.
  */
 import { homeText } from "../i18n/home";
 import { HTML_LANG, type Lang } from "../i18n/ui";
 import Base from "../layouts/Base.astro";
 import { alternates } from "../lib/i18n";
+import Hero from "./Hero.astro";
+import Manifesto from "./Manifesto.astro";
+import Marquee from "./Marquee.astro";
 import SiteNav from "./SiteNav.astro";
 
 interface Props {
@@ -29,39 +32,9 @@ const t = homeText[lang];
 
   <SiteNav lang={lang} />
 
-  <main id="topo" class="open">
-    <p class="kicker enter" style="--i: 0">{t.kicker}</p>
-    <h1 class="enter" style="--i: 1">Hugu Gomes</h1>
-    <p class="enter" style="--i: 2">{t.soon}</p>
+  <main>
+    <Hero lang={lang} />
+    <Marquee lang={lang} />
+    <Manifesto lang={lang} />
   </main>
 </Base>
-
-<style>
-  .open {
-    min-height: calc(100dvh - 73px);
-    display: grid;
-    place-content: center;
-    gap: 0.5rem;
-    padding: var(--gutter);
-    text-align: center;
-  }
-  .kicker {
-    font-size: 13px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 600;
-  }
-  h1 {
-    margin: 0;
-    font-size: clamp(3rem, 12vw, 9rem);
-    font-stretch: 70%;
-    font-weight: 900;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
-  p {
-    margin: 0;
-  }
-</style>

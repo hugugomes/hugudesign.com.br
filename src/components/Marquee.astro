@@ -1,0 +1,123 @@
+---
+/**
+ * Faixa de funções (issue #9). Loop contínuo com botão de pausa (AGENTS.md §3);
+ * pausa sozinha com prefers-reduced-motion. A segunda cópia é só visual.
+ */
+import { homeText } from "../i18n/home";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = homeText[lang];
+---
+
+<div class="marquee" data-marquee>
+  <div class="track">
+    {
+      [0, 1].map((copy) => (
+        <ul class="list" aria-label={copy === 0 ? t.marqueeLabel : undefined} aria-hidden={copy === 1 ? "true" : undefined}>
+          {t.marquee.map((item) => (
+            <li>
+              {item}
+              <span class="star" aria-hidden="true">✦</span>
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+  <button type="button" class="pause" aria-label={t.marqueePause} aria-pressed="false" data-marquee-toggle>
+    <svg class="i-pause" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2h3v10H3zM8 2h3v10H8z" fill="currentColor"></path></svg>
+    <svg class="i-play" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 2l9 5-9 5z" fill="currentColor"></path></svg>
+  </button>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-marquee]")) {
+    const btn = root.querySelector<HTMLButtonElement>("[data-marquee-toggle]");
+    btn?.addEventListener("click", () => {
+      const paused = root.classList.toggle("is-paused");
+      btn.setAttribute("aria-pressed", String(paused));
+    });
+  }
+</script>
+
+<style>
+  .marquee {
+    position: relative;
+    border-block: 1px solid var(--line);
+    padding: 20px 0;
+    overflow: hidden;
+  }
+  .track {
+    display: flex;
+    width: max-content;
+  }
+  .list {
+    display: flex;
+    gap: 56px;
+    margin: 0;
+    padding: 0 28px;
+    list-style: none;
+    font-size: 22px;
+    font-weight: 700;
+    font-stretch: 80%;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 56px;
+  }
+  .star {
+    color: var(--accent);
+  }
+  .pause {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    translate: 0 -50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--fg);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .i-play,
+  .is-paused .i-pause {
+    display: none;
+  }
+  .is-paused .i-play {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .track {
+      animation: marquee var(--dur-marquee) linear infinite;
+    }
+    .is-paused .track {
+      animation-play-state: paused;
+    }
+  }
+  /* Com menos movimento a faixa fica parada, então o botão não tem função. */
+  @media (prefers-reduced-motion: reduce) {
+    .pause {
+      display: none;
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>
