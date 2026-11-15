@@ -1,0 +1,36 @@
+# Teste de mutação (Stryker) da issue #4: mede se os testes de src/lib
+# realmente pegam erros. Roda toda segunda de madrugada e quando alguém pedir.
+name: Mutação (Stryker)
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # segunda, 03:17 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mutation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install
+        run: npm ci
+
+      - name: Stryker
+        run: npm run mutation
+
+      - name: Relatório do Stryker
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stryker-report
+          path: reports/mutation/
+          retention-days: 14
