@@ -78,4 +78,3 @@ for (const path of ["/en/", "/es/"]) {
     expect(results.violations).toEqual([]);
   });
 }
-

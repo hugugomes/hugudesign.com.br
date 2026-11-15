@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import logo from "../assets/logo-hg.webp";
 /**
  * Navegação fixa da home (issue #8): logo, âncoras, seletor de idioma,
  * botão de tema e CTA. Troca de idioma e tema são instantâneas (Emil).
@@ -6,8 +8,6 @@
 import { homeText } from "../i18n/home";
 import type { Lang } from "../i18n/ui";
 import { alternates } from "../lib/i18n";
-import logo from "../assets/logo-hg.webp";
-import { Image } from "astro:assets";
 
 interface Props {
   lang: Lang;

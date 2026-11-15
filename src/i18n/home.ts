@@ -315,7 +315,8 @@ const es: HomeCopy = {
   ctaText: "Cuéntame qué necesitas. Te respondo con un camino claro, plazo y propuesta.",
   ctaBtn: "Hablar por WhatsApp",
   botLabel: "Abrir el asistente HG",
-  botHi: "¡Hola! Soy HG, el ayudante pixelado de Hugu. ¿Quieres ver los trabajos o pedir un presupuesto?",
+  botHi:
+    "¡Hola! Soy HG, el ayudante pixelado de Hugu. ¿Quieres ver los trabajos o pedir un presupuesto?",
   botWork: "Ver trabajos",
   botQuote: "Pedir presupuesto",
   footerPlace: "São Paulo · Foz do Iguaçu, Brasil",
