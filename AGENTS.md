@@ -75,7 +75,7 @@ Contrato de arquitetura:
 
 ## 6. Observabilidade
 
-- **Sentry** (`@sentry/astro`, que usa OpenTelemetry por baixo) registra erros de JavaScript, desempenho e Web Vitals. A amostragem fica baixa (`tracesSampleRate: 0.1`) e o Session Replay fica desligado. O DSN vai em `PUBLIC_SENTRY_DSN`.
+- **Sentry** (`@sentry/browser`, carregado depois da página em `src/scripts/observability.ts`) registra erros de JavaScript, desempenho e Web Vitals. O site é estático, então não usamos o `@sentry/astro` (ele serve para servidor Node). A amostragem fica baixa (`tracesSampleRate: 0.1`), o Session Replay fica desligado e todo evento passa por `scrubEvent` (`src/lib/privacy.ts`). O DSN público fica em `src/config/observability.ts` e pode ser trocado por `PUBLIC_SENTRY_DSN`. Em localhost o Sentry não liga.
 - **Datadog e New Relic não são usados:** são pagos e repetiriam o que o Sentry já faz num site estático. Só reavalie se surgir um back-end.
 - Nunca envie dados pessoais para ferramentas de monitoramento.
 
