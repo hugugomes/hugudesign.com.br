@@ -1,0 +1,8 @@
+# Redirecionamentos do Cloudflare Pages (issue #5).
+# O antigo /portfolio vira a seção de trabalhos da home, nos três idiomas.
+/portfolio      /#trabalhos     301
+/portfolio/     /#trabalhos     301
+/en/portfolio   /en/#trabalhos  301
+/en/portfolio/  /en/#trabalhos  301
+/es/portfolio   /es/#trabalhos  301
+/es/portfolio/  /es/#trabalhos  301

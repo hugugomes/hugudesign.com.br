@@ -7,7 +7,9 @@ Se uma instrução de chat entrar em conflito com este arquivo, pergunte ao Hugu
 
 - Portfólio de **Hugu Gomes** (designer, branding e social media). Público: clientes no Brasil e no exterior.
 - **Astro** (site estático) + TypeScript + CSS puro. Idiomas: `/` (PT-BR), `/en/`, `/es/`. Páginas: home, cases, `/links/` e `/cv/`.
-- Hospedagem: **Hostinger** (domínio hugudesign.com.br). O deploy é feito pelo GitHub Actions quando um PR entra na `main`.
+- Hospedagem: **Cloudflare Pages** (projeto `hugudesign`, `hugudesign.pages.dev`), com DNS e e-mail (`contato@`) no Cloudflare. O Pages publica sozinho quando um PR entra na `main` e gera uma prévia por branch (`https://<branch-com-hifens>.hugudesign.pages.dev`).
+- Transição: enquanto a migração (#19) não acontece, a raiz do domínio ainda é o WordPress antigo na Hostinger, e o Worker `quiet-snowflake-0e41` leva só `/links*`, `/en/links*`, `/es/links*` e `/_astro/*` para o Pages. Apontar o domínio inteiro para o Pages é decisão do Hugu.
+- Cabeçalhos e redirecionamentos do Pages ficam em `public/_headers` e `public/_redirects`.
 - Referência visual e de textos: a pasta `docs/prototipo/` (protótipo aprovado) e `docs/conteudo/`.
 
 ## 2. Fluxo de trabalho: Issue → Branch → PR → Deploy (obrigatório)
@@ -19,7 +21,7 @@ Se uma instrução de chat entrar em conflito com este arquivo, pergunte ao Hugu
 3. **Commits no padrão Conventional Commits** (validados pelo commitlint): `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `perf:`, `style:`.
 4. **Abra um PR para cada issue.** A descrição do PR **precisa mencionar a issue** com `Closes #N`, para fechá-la no merge. Siga o template `.github/pull_request_template.md`.
 5. **O PR só entra quando a CI está verde:** lint, tipos, arquitetura, código morto, testes unitários, integração e E2E, além da cobertura no Codecov.
-6. **O merge na `main` publica o site.** Só faça merge com aprovação explícita do Hugu, porque o site está no ar. Use squash merge.
+6. **O merge na `main` publica o site.** Só faça merge com aprovação explícita do Hugu, porque o site está no ar. Quem clica em **Squash and merge** é o Hugu. Mudanças de DNS também são feitas por ele.
 7. Um PR deve ser pequeno e focado em uma issue. Se descobrir outra tarefa no caminho, abra uma issue nova em vez de aumentar o PR.
 8. Há uma única exceção a essas regras: os commits iniciais de configuração do repositório (31/10/2026). Daqui em diante, tudo passa por PR.
 
