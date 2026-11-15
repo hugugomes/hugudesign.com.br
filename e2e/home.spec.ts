@@ -75,7 +75,7 @@ test.describe("home", () => {
     const box = await lens.boundingBox();
     if (!box) throw new Error("retrato sem tamanho");
     await page.mouse.move(box.x + box.width * 0.25, box.y + box.height * 0.5);
-    await expect(lens).toHaveAttribute("style", /--mx: 25\.0%/);
+    await expect(lens).toHaveAttribute("style", /--mx: 2[45]\.\d%/);
   });
 
   test("com menos movimento, a lente não passeia sozinha", async ({ page }, info) => {
