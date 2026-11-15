@@ -1,11 +1,11 @@
 ---
+import { Image } from "astro:assets";
 /**
  * Imagem padrão do site (AGENTS.md §3): reserva o espaço com aspect-ratio,
  * mostra skeleton até carregar, usa lazy loading e gera AVIF/WebP responsivos.
  * Use `eager` só na imagem principal acima da dobra.
  */
 import type { ImageMetadata } from "astro";
-import { Image } from "astro:assets";
 
 interface Props {
   src: ImageMetadata;
