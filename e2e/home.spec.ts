@@ -1,5 +1,24 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
+
+/**
+ * Espera só as animações de entrada (finitas e no tempo da página). Loops como a
+ * faixa e animações presas à rolagem nunca "terminam", então ficam de fora.
+ */
+async function settle(page: Page) {
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter(
+          (a) =>
+            a.timeline instanceof DocumentTimeline &&
+            a.effect?.getTiming().iterations !== Number.POSITIVE_INFINITY,
+        )
+        .map((a) => a.finished),
+    ),
+  );
+}
 
 test.describe("home", () => {
   test("abre com título, nome e idioma", async ({ page }) => {
@@ -24,7 +43,7 @@ test.describe("home", () => {
 
   test("sem violações de acessibilidade (axe)", async ({ page }) => {
     await page.goto("/");
-    await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
+    await settle(page);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     expect(results.violations).toEqual([]);
   });
@@ -102,7 +121,7 @@ test.describe("home", () => {
 for (const path of ["/en/", "/es/"]) {
   test(`sem violações de acessibilidade em ${path} (axe)`, async ({ page }) => {
     await page.goto(path);
-    await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished)));
+    await settle(page);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     expect(results.violations).toEqual([]);
   });
