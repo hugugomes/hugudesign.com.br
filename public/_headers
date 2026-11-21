@@ -9,9 +9,3 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
-
-# Prévias para clientes ficam fora dos buscadores (issue #37).
-/tea-gv
-  X-Robots-Tag: noindex, nofollow
-/tea-gv/*
-  X-Robots-Tag: noindex, nofollow
