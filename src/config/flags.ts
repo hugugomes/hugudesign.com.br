@@ -3,5 +3,5 @@
  * por escrito a publicação do trabalho como case do portfólio.
  */
 
-/** Case do Simpósio TEA-GV em /projetos/tea-gv/ (a prévia em /tea-gv/ não depende disso). */
-export const SHOW_TEAGV = false;
+/** Case do Simpósio TEA-GV em /projetos/tea-gv/ (liberado: aprovado pela cliente em 21/11/2026, versão de portfólio com valores e contatos desfocados). */
+export const SHOW_TEAGV = true;

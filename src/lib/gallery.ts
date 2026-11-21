@@ -6,22 +6,15 @@ export interface GalleryPage {
   num: number;
   /** "06" */
   label: string;
-  /** A página mostra preços (só pode aparecer em prévias privadas). */
-  price: boolean;
 }
 
 /** Monta as páginas de um material: ids "<grupo>-01" … "<grupo>-NN". */
-export function buildPages(group: string, count: number, priceNums: number[] = []): GalleryPage[] {
+export function buildPages(group: string, count: number): GalleryPage[] {
   return Array.from({ length: Math.max(0, count) }, (_, i) => {
     const num = i + 1;
     const label = String(num).padStart(2, "0");
-    return { id: `${group}-${label}`, group, num, label, price: priceNums.includes(num) };
+    return { id: `${group}-${label}`, group, num, label };
   });
-}
-
-/** Tira as páginas com preço (para o case público). */
-export function withoutPrices<T extends { price: boolean }>(pages: T[]): T[] {
-  return pages.filter((page) => !page.price);
 }
 
 /** Próximo índice num carrossel que dá a volta: -1 vira o último, n vira 0. */

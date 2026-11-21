@@ -1,7 +1,6 @@
 /**
- * Textos do Simpósio TEA-GV (issue #37): a prévia para a cliente em /tea-gv/
- * e o case em /projetos/tea-gv/. Só em português por enquanto: a prévia é
- * para uma cliente brasileira e o case ainda depende de autorização.
+ * Textos do case do Simpósio TEA-GV em /projetos/tea-gv/ (issues #37 e #39).
+ * Só em português por enquanto, como os próprios materiais.
  */
 
 const apresentacao = [
@@ -52,18 +51,20 @@ export const teaGvText = {
     dialogLabel: "Página ampliada",
     hint: "Toque em uma página para ampliar. Use as setas para passar.",
   },
-  preview: {
-    title: "Prévia 2 · Materiais comerciais TEA-GV",
-    description: "Prévia dos materiais comerciais 2027 do Simpósio TEA-GV, para validação.",
-    badge: "Prévia 2 · 21 de novembro de 2026",
+  page: {
+    title: "Simpósio TEA-GV · Materiais comerciais 2027",
+    description:
+      "Apresentação comercial, cotas de patrocínio e design system do Simpósio TEA-GV 2027, o maior simpósio sobre autismo e TDAH de Minas Gerais. Design de Hugu Gomes.",
+    navLabel: "Voltar ao portfólio",
+    back: "Todos os trabalhos",
+    badge: "Projeto · Novembro de 2026",
     titleA: "Materiais comerciais",
     titleB: "2027",
     intro:
-      "Dra., esta é a segunda prévia, já com todas as informações que você enviou. Os dois materiais estão completos na versão vertical (para WhatsApp) e na horizontal (para o teste A/B), além do guia da identidade visual do TEA-GV.",
-    statusLabel: "Status da prévia",
+      "Apresentação comercial e cotas de patrocínio do Simpósio TEA-GV, o maior simpósio sobre autismo e TDAH de Minas Gerais. Materiais pensados pra circular no WhatsApp, com versões horizontais pra teste A/B e um Design System construído a partir da identidade do evento no Instagram.",
+    statusLabel: "O projeto",
     statusNum: "48",
-    statusText:
-      "páginas prontas para a sua avaliação: 24 verticais e 24 horizontais, mais o Design System.",
+    statusText: "páginas desenhadas: 24 verticais e 24 horizontais, mais o Design System.",
     sections: {
       apresentacao: {
         badge: "PDF 1 · 14 páginas",
@@ -106,38 +107,11 @@ export const teaGvText = {
           "Elementos: fundos com textura de quebra-cabeça, 7 variações de luz, cards, títulos e selos de cota.",
       },
     },
-    feedbackTitle: "Tem algum ajuste?",
-    feedbackText:
-      "Me diga o número da página e o que mudar (por exemplo, “Cotas 06: trocar a foto”). Respondo pelo WhatsApp.",
-    feedbackCta: "Enviar ajustes pelo WhatsApp",
-    feedbackMessage: "Oi, Hugu! Sobre a Prévia 2 do TEA-GV:",
-    credit: "Design: Hugu Gomes · Prévia 2 para validação · Novembro de 2026",
-  },
-  case: {
-    title: "Simpósio TEA-GV",
-    description:
-      "Apresentação comercial, cotas de patrocínio e design system do Simpósio TEA-GV 2027, por Hugu Gomes.",
-    back: "Todos os trabalhos",
-    eyebrow: "Projeto · Materiais comerciais",
-    h1: "Simpósio TEA-GV",
-    lead: "Uma apresentação que mostra para apoiadores que o TEA-GV é mais do que um evento: é um movimento.",
-    meta: [
-      ["Cliente", "Simpósio TEA-GV · Lotus Medicina e Saúde"],
-      ["Edição", "2027"],
-      ["Escopo", "Apresentação comercial · cotas de patrocínio"],
-      ["Entregas", "48 páginas · vertical e horizontal · design system"],
-    ],
-    heroAlt: "Capa da apresentação comercial do Simpósio TEA-GV, versão horizontal",
-    challengeTitle: "O projeto",
-    challengeText:
-      "Quatro edições de história, números, imprensa e palestrantes organizadas num material que convence apoiadores. A versão vertical vai pelo WhatsApp; a horizontal serve para apresentar em tela e reuniões.",
-    apresentacaoTitle: "Apresentação do evento",
-    cotasTitle: "Cotas de patrocínio",
-    cotasNote: "Os valores das cotas ficam só com a organização do evento.",
-    horizontalTitle: "Versão horizontal",
-    dsTitle: "Design system",
-    dsText:
-      "A identidade organizada em um só lugar para os próximos materiais seguirem a mesma linguagem do Instagram do evento.",
-    nextLabel: "Ver outros trabalhos",
+    ctaTitle: "Tem um evento pra divulgar?",
+    ctaText:
+      "Apresentações, cotas de patrocínio e identidade para eventos que precisam convencer apoiadores.",
+    ctaButton: "Conversar pelo WhatsApp",
+    ctaMessage: "Oi, Hugu! Vi o case do TEA-GV e quero conversar sobre um projeto.",
+    credit: "Design: Hugu Gomes · Novembro de 2026 · Valores e contatos desfocados por privacidade",
   },
 };

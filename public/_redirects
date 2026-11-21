@@ -6,3 +6,7 @@
 /en/portfolio/  /en/#trabalhos  301
 /es/portfolio   /es/#trabalhos  301
 /es/portfolio/  /es/#trabalhos  301
+
+# A prévia do TEA-GV virou case do portfólio (issue #39).
+/tea-gv /projetos/tea-gv/ 301
+/tea-gv/ /projetos/tea-gv/ 301

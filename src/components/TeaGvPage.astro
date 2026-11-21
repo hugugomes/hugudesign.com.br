@@ -1,14 +1,14 @@
 ---
 /**
- * Prévia dos materiais comerciais do Simpósio TEA-GV para a cliente (issue #37).
- * Página fora dos buscadores: noindex aqui e X-Robots-Tag no public/_headers.
+ * Case do Simpósio TEA-GV (issues #37 e #39), no layout da versão de portfólio.
+ * As imagens são a versão aprovada, com valores e contatos desfocados.
  */
 import "@fontsource/barlow/latin-400.css";
 import "@fontsource/barlow/latin-500.css";
 import "@fontsource/barlow-condensed/latin-700.css";
 import { Image } from "astro:assets";
 import { LINKS } from "../config/links";
-import { TEA_DS_CARDS, TEA_GROUPS, TEA_PRICE_PAGES } from "../config/tea-gv";
+import { TEA_DS_CARDS, TEA_GROUPS } from "../config/tea-gv";
 import { teaGvText } from "../i18n/tea-gv";
 import Base from "../layouts/Base.astro";
 import { buildPages } from "../lib/gallery";
@@ -19,12 +19,12 @@ import { teaImage } from "./teaGvImages";
 import "../styles/motion.css";
 
 const t = teaGvText;
-const p = t.preview;
+const p = t.page;
 const logo = teaImage("logo");
 
 const sections = TEA_GROUPS.map((group) => {
   const names = t.pageNames[group.key];
-  const pages = buildPages(group.key, group.count, TEA_PRICE_PAGES[group.key]);
+  const pages = buildPages(group.key, group.count);
   return {
     ...group,
     copy: p.sections[group.key],
@@ -36,13 +36,18 @@ const sections = TEA_GROUPS.map((group) => {
   };
 });
 
-const whatsapp = `${LINKS.whatsapp}?text=${encodeURIComponent(p.feedbackMessage)}`;
+const whatsapp = `${LINKS.whatsapp}?text=${encodeURIComponent(p.ctaMessage)}`;
 ---
 
 <Base title={p.title} description={p.description}>
-  <meta slot="head" name="robots" content="noindex, nofollow" />
   <div class="tea">
     <div class="stripe" aria-hidden="true"></div>
+    <nav class="wrap top" aria-label={p.navLabel}>
+      <a class="back" href="/#trabalhos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+        {p.back}
+      </a>
+    </nav>
 
     <header class="wrap head">
       <div class="head-main enter" style="--i: 0">
@@ -110,12 +115,12 @@ const whatsapp = `${LINKS.whatsapp}?text=${encodeURIComponent(p.feedbackMessage)
         </ul>
       </section>
 
-      <section class="wrap feedback rv" aria-labelledby="h-feedback">
+      <section class="wrap feedback rv" aria-labelledby="h-cta">
         <div>
-          <h2 class="h3" id="h-feedback">{p.feedbackTitle}</h2>
-          <p class="sub">{p.feedbackText}</p>
+          <h2 class="h3" id="h-cta">{p.ctaTitle}</h2>
+          <p class="sub">{p.ctaText}</p>
         </div>
-        <a class="cta" href={whatsapp} target="_blank" rel="noopener">{p.feedbackCta}</a>
+        <a class="cta" href={whatsapp} target="_blank" rel="noopener">{p.ctaButton}</a>
       </section>
     </main>
 
@@ -185,21 +190,47 @@ const whatsapp = `${LINKS.whatsapp}?text=${encodeURIComponent(p.feedbackMessage)
     }
   }
 
+  .top {
+    padding-top: 20px;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: var(--tea-ink);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .back svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .back:focus-visible {
+    outline: 3px solid var(--tea-sky);
+    outline-offset: 3px;
+  }
   .head {
     display: grid;
     gap: 32px;
-    padding-block: 48px 24px;
+    padding-block: 24px;
     align-items: center;
   }
   @media (min-width: 1025px) {
     .head {
       grid-template-columns: minmax(0, 1fr) 360px;
-      padding-block: 72px 40px;
+      padding-block: 32px 40px;
     }
   }
 
   .brand {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
     flex-direction: column;
     align-items: center;
   }
@@ -221,7 +252,8 @@ const whatsapp = `${LINKS.whatsapp}?text=${encodeURIComponent(p.feedbackMessage)
   }
 
   .badge {
-    display: inline-block;
+    display: block;
+    width: fit-content;
     margin: 24px 0 0;
     padding: 6px 12px;
     border-radius: 6px;
