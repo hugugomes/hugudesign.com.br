@@ -1,0 +1,406 @@
+---
+/**
+ * Prévia dos materiais comerciais do Simpósio TEA-GV para a cliente (issue #37).
+ * Página fora dos buscadores: noindex aqui e X-Robots-Tag no public/_headers.
+ */
+import "@fontsource/barlow/latin-400.css";
+import "@fontsource/barlow/latin-500.css";
+import "@fontsource/barlow-condensed/latin-700.css";
+import { Image } from "astro:assets";
+import { LINKS } from "../config/links";
+import { TEA_DS_CARDS, TEA_GROUPS, TEA_PRICE_PAGES } from "../config/tea-gv";
+import { teaGvText } from "../i18n/tea-gv";
+import Base from "../layouts/Base.astro";
+import { buildPages } from "../lib/gallery";
+import Img from "./Img.astro";
+import Lightbox from "./Lightbox.astro";
+import PageGallery from "./PageGallery.astro";
+import { teaImage } from "./teaGvImages";
+import "../styles/motion.css";
+
+const t = teaGvText;
+const p = t.preview;
+const logo = teaImage("logo");
+
+const sections = TEA_GROUPS.map((group) => {
+  const names = t.pageNames[group.key];
+  const pages = buildPages(group.key, group.count, TEA_PRICE_PAGES[group.key]);
+  return {
+    ...group,
+    copy: p.sections[group.key],
+    items: pages.map((page) => ({
+      id: page.id,
+      src: teaImage(page.id),
+      caption: `${page.label} · ${names[page.num - 1] ?? ""}`,
+    })),
+  };
+});
+
+const whatsapp = `${LINKS.whatsapp}?text=${encodeURIComponent(p.feedbackMessage)}`;
+---
+
+<Base title={p.title} description={p.description}>
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+  <div class="tea">
+    <div class="stripe" aria-hidden="true"></div>
+
+    <header class="wrap head">
+      <div class="head-main enter" style="--i: 0">
+        <div class="brand">
+          <p class="kicker">{t.kicker}</p>
+          <Image
+            src={logo}
+            alt={t.logoAlt}
+            widths={[260, 520]}
+            sizes="260px"
+            class="logo"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <p class="badge">{p.badge}</p>
+        <h1 class="title">{p.titleA} <span class="hl">{p.titleB}</span></h1>
+        <p class="lede">{p.intro}</p>
+        <p class="hint">{t.gallery.hint}</p>
+      </div>
+      <aside class="status enter" style="--i: 2" aria-label={p.statusLabel}>
+        <p class="status-label">{p.statusLabel}</p>
+        <p class="status-num">{p.statusNum}</p>
+        <p class="status-text">{p.statusText}</p>
+      </aside>
+    </header>
+
+    <main>
+      {
+        sections.map((section) => (
+          <section class="wrap block" aria-labelledby={`h-${section.key}`}>
+            <p class="badge rv">{section.copy.badge}</p>
+            <h2 class="h2 rv" id={`h-${section.key}`}>
+              {section.copy.titleA} <span class="hl">{section.copy.titleB}</span>
+            </h2>
+            <p class="sub rv">{section.copy.text}</p>
+            <PageGallery
+              items={section.items}
+              orient={section.orient}
+              title={`${section.copy.titleA} ${section.copy.titleB}`}
+              openLabel={t.gallery.open}
+            />
+          </section>
+        ))
+      }
+
+      <section class="wrap block" aria-labelledby="h-ds">
+        <p class="badge rv">{p.ds.badge}</p>
+        <h2 class="h2 rv" id="h-ds">{p.ds.titleA} <span class="hl">{p.ds.titleB}</span></h2>
+        <p class="sub rv">{p.ds.text}</p>
+        <ul class="ds">
+          {
+            TEA_DS_CARDS.map((card) => (
+              <li class="rv">
+                <Img
+                  src={teaImage(`ds-${card}`)}
+                  alt={p.ds.cards[card]}
+                  widths={[360, 540, 720]}
+                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 320px"
+                  class="ds-img"
+                />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="wrap feedback rv" aria-labelledby="h-feedback">
+        <div>
+          <h2 class="h3" id="h-feedback">{p.feedbackTitle}</h2>
+          <p class="sub">{p.feedbackText}</p>
+        </div>
+        <a class="cta" href={whatsapp} target="_blank" rel="noopener">{p.feedbackCta}</a>
+      </section>
+    </main>
+
+    <footer class="wrap foot">
+      <p>{p.credit}</p>
+      <div class="brand">
+        <p class="kicker">{t.kicker}</p>
+        <Image src={logo} alt={t.logoAlt} widths={[200, 400]} sizes="200px" class="logo logo-sm" />
+      </div>
+    </footer>
+    <div class="stripe" aria-hidden="true"></div>
+  </div>
+
+  <Lightbox
+    labels={{
+      dialog: t.gallery.dialogLabel,
+      close: t.gallery.close,
+      prev: t.gallery.prev,
+      next: t.gallery.next,
+      of: t.gallery.of,
+    }}
+  />
+</Base>
+
+<style>
+  /* Paleta própria do TEA-GV, a mesma no claro e no escuro (como a /links). */
+  .tea {
+    --tea-deep: #093b4d;
+    --tea-mid: #12697e;
+    --tea-sky: #2bb8f2;
+    --tea-ink: #ffffff;
+    --tea-ink-soft: rgb(255 255 255 / 0.82);
+    --tea-sans: "Barlow", system-ui, sans-serif;
+    --tea-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+    --skeleton-base: rgb(255 255 255 / 0.08);
+    --wrap: 1680px;
+
+    min-height: 100vh;
+    color: var(--tea-ink);
+    font-family: var(--tea-sans);
+    background:
+      radial-gradient(1200px 700px at 85% 0%, rgb(43 184 242 / 0.18), transparent 70%),
+      linear-gradient(180deg, var(--tea-mid) 0%, #0e5268 22%, var(--tea-deep) 60%, #072f3e 100%);
+  }
+  :global(body:has(.tea)) {
+    background: #072f3e;
+  }
+
+  .stripe {
+    height: 6px;
+    background: linear-gradient(
+      90deg,
+      #ff0101 0 25%,
+      #fd7b01 25% 50%,
+      #49a12a 50% 75%,
+      #1faaed 75% 100%
+    );
+  }
+
+  .wrap {
+    width: min(100% - 32px, var(--wrap));
+    margin-inline: auto;
+  }
+  @media (min-width: 900px) {
+    .wrap {
+      width: min(100% - 96px, var(--wrap));
+    }
+  }
+
+  .head {
+    display: grid;
+    gap: 32px;
+    padding-block: 48px 24px;
+    align-items: center;
+  }
+  @media (min-width: 1025px) {
+    .head {
+      grid-template-columns: minmax(0, 1fr) 360px;
+      padding-block: 72px 40px;
+    }
+  }
+
+  .brand {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .kicker {
+    margin: 0 0 6px;
+    font-family: var(--tea-display);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+  }
+  :global(.logo) {
+    display: block;
+    width: clamp(200px, 28vw, 260px);
+    height: auto;
+  }
+  :global(.logo-sm) {
+    width: 180px;
+  }
+
+  .badge {
+    display: inline-block;
+    margin: 24px 0 0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--tea-sky);
+    color: #04202c;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .block .badge {
+    margin-top: 0;
+  }
+
+  .title,
+  .h2 {
+    font-family: var(--tea-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+  }
+  .title {
+    margin: 18px 0 0;
+    font-size: clamp(2.8rem, 8vw, 6.2rem);
+    max-width: 12ch;
+  }
+  .h2 {
+    margin: 14px 0 0;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+  }
+  .h3 {
+    margin: 0;
+    font-family: var(--tea-display);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    text-transform: uppercase;
+  }
+  .hl {
+    color: var(--tea-sky);
+  }
+
+  .lede,
+  .sub {
+    color: var(--tea-ink-soft);
+    font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+    line-height: 1.55;
+    max-width: 62ch;
+  }
+  .lede {
+    margin: 20px 0 0;
+  }
+  .sub {
+    margin: 12px 0 32px;
+  }
+
+  .status {
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(255 255 255 / 0.07);
+    backdrop-filter: blur(8px);
+  }
+  .status-label {
+    margin: 0;
+    color: var(--tea-sky);
+    font-weight: 500;
+  }
+  .status-num {
+    margin: 8px 0;
+    font-family: var(--tea-display);
+    font-weight: 700;
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--tea-sky);
+  }
+  .status-text {
+    margin: 0;
+    color: var(--tea-ink-soft);
+    line-height: 1.5;
+  }
+
+  .block {
+    padding-block: 56px;
+  }
+  .hint {
+    margin: 14px 0 0;
+    color: var(--tea-sky);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .ds {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 641px) {
+    .ds {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1025px) {
+    .ds {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  :global(.ds-img) {
+    border-radius: 22px;
+  }
+
+  .feedback {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    margin-block: 24px 56px;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(255 255 255 / 0.07);
+  }
+  .feedback .sub {
+    margin-bottom: 0;
+  }
+  @media (min-width: 900px) {
+    .feedback {
+      grid-template-columns: minmax(0, 1fr) auto;
+      padding: 36px 40px;
+    }
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 24px;
+    border-radius: 999px;
+    background: var(--tea-sky);
+    color: #04202c;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  @media (hover: hover) {
+    .cta:hover {
+      transform: translateY(-2px);
+    }
+  }
+  .cta:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-block: 24px 48px;
+    color: var(--tea-ink-soft);
+    font-size: 0.95rem;
+  }
+  .foot p {
+    margin: 0;
+  }
+  .foot .kicker {
+    color: var(--tea-ink);
+    font-size: 0.95rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta {
+      transition: none;
+    }
+    .cta:hover {
+      transform: none;
+    }
+  }
+</style>

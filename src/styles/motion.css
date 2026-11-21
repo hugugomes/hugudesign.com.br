@@ -8,6 +8,7 @@
   --dur-fast: 160ms;
   --dur-enter: 420ms;
   --dur-exit: 220ms;
+  --dur-dialog: 280ms;
   --enter-y: 8px;
   --enter-blur: 4px;
   --stagger: 70ms;
