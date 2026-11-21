@@ -1,0 +1,14 @@
+---
+/**
+ * Páginas de projeto (/projetos/<nome>/). Cada case só é gerado quando a
+ * flag dele está ligada em src/config/flags.ts.
+ */
+import TeaGvCase from "../../components/TeaGvCase.astro";
+import { SHOW_TEAGV } from "../../config/flags";
+
+export function getStaticPaths() {
+  return SHOW_TEAGV ? [{ params: { slug: "tea-gv" } }] : [];
+}
+---
+
+<TeaGvCase />

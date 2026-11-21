@@ -1,0 +1,148 @@
+---
+import { getImage } from "astro:assets";
+/**
+ * Grade de páginas de um material (ex.: as 14 páginas de uma apresentação).
+ * Cada miniatura abre a versão grande no <Lightbox> da página.
+ */
+import type { ImageMetadata } from "astro";
+import Img from "./Img.astro";
+
+interface Item {
+  id: string;
+  src: ImageMetadata;
+  /** "01 · Capa" */
+  caption: string;
+}
+
+interface Props {
+  items: Item[];
+  orient: "portrait" | "landscape";
+  /** Nome do material, mostrado na legenda do lightbox. */
+  title: string;
+  openLabel: string;
+}
+
+const { items, orient, title, openLabel } = Astro.props;
+const portrait = orient === "portrait";
+const full = await Promise.all(
+  items.map((item) => getImage({ src: item.src, width: portrait ? 1080 : 1600, format: "webp" })),
+);
+---
+
+<ul class:list={["pg", `pg-${orient}`]} data-gallery data-title={title} data-orient={orient}>
+  {
+    items.map((item, i) => (
+      <li class="pg-item rv">
+        <button
+          type="button"
+          class="pg-btn"
+          data-full={full[i]?.src}
+          data-caption={item.caption}
+          data-id={item.id}
+          aria-label={`${openLabel}: ${title}, ${item.caption}`}
+        >
+          <Img
+            src={item.src}
+            alt=""
+            ratio={portrait ? "9 / 16" : "16 / 9"}
+            widths={portrait ? [240, 360, 540] : [400, 600, 800]}
+            sizes={
+              portrait
+                ? "(max-width: 640px) 44vw, (max-width: 1024px) 30vw, 250px"
+                : "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 320px"
+            }
+          />
+        </button>
+        <p class="pg-cap" aria-hidden="true">
+          <span class="pg-dot" />
+          {item.caption}
+        </p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .pg {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 28px 18px;
+  }
+  .pg-portrait {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pg-landscape {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 641px) {
+    .pg-portrait {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .pg-landscape {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1025px) {
+    .pg-portrait {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .pg-landscape {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .pg-btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: none;
+    cursor: zoom-in;
+    overflow: hidden;
+    box-shadow: 0 14px 30px -18px rgb(0 0 0 / 0.7);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .pg-btn :global(.img) {
+    border-radius: inherit;
+  }
+  @media (hover: hover) {
+    .pg-btn:hover {
+      transform: translateY(-3px);
+    }
+  }
+  .pg-btn:focus-visible {
+    outline: 3px solid var(--tea-sky, #2bb8f2);
+    outline-offset: 3px;
+  }
+
+  .pg-cap {
+    margin: 12px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: var(--tea-ink-soft, rgb(255 255 255 / 0.82));
+  }
+  .pg-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--tea-sky, #2bb8f2);
+    flex: none;
+  }
+  .pg-landscape .pg-dot {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pg-btn {
+      transition: none;
+    }
+    .pg-btn:hover {
+      transform: none;
+    }
+  }
+</style>

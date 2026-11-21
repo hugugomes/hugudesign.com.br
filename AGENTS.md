@@ -83,6 +83,7 @@ Contrato de arquitetura:
 
 - **Catholicum** e **Grupo Empresarial Castro** ficam atrás das flags `SHOW_CATHOLICUM` e `SHOW_CASTRO` em `src/config/flags.ts`, desligadas por padrão. Os contratos exigem autorização por escrito antes de publicar, e o Catholicum exige o crédito "Catholicum Studio".
 - **Repositório público:** imagens de Catholicum e Castro **não entram no repositório** antes da autorização por escrito, porque num repo público até um arquivo escondido fica visível.
+- **Simpósio TEA-GV:** a prévia para a cliente fica em `/tea-gv/`, fora dos buscadores (`noindex` e `X-Robots-Tag`). O case `/projetos/tea-gv/` fica atrás da flag `SHOW_TEAGV` até a autorização por escrito, e nunca mostra as páginas com os valores das cotas (`TEA_PRICE_PAGES` em `src/config/tea-gv.ts`).
 - O **Pitch CMAC** nunca entra no site.
 - Imagens: WebP ou AVIF, no máximo 2400px, e menos de 3 MB por página.
 - Nada de segredo no repositório: tokens só em GitHub Secrets ou `.env` (que está no `.gitignore`).
